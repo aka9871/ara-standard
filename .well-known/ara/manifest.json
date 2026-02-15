@@ -1,0 +1,76 @@
+{
+  "$ara": "1.0",
+  "$schema": "https://ara-standard.org/schema/manifest/v1",
+
+  "identity": {
+    "name": "ARA Standard",
+    "type": "documentation",
+    "description": "The official specification, tools, and examples for the ARA (Agent-Ready Architecture) open web standard. ARA enables any website to be understood and interacted with by autonomous AI agents.",
+    "sector": "technology",
+    "locale": ["en"],
+    "contact": {
+      "website": "https://ara-standard.org",
+      "email": "ara-support@ara-standard.org",
+      "github": "https://github.com/ARA-Standard/ara-standard"
+    }
+  },
+
+  "content_map": {
+    "summary": "ARA v1.0 specification with 3-layer architecture (Discovery, Understanding, Interaction), 4 sector examples, validator and generator tools",
+    "resources": [
+      {
+        "id": "specification",
+        "type": "content",
+        "label": "ARA v1.0 Specification",
+        "description": "Full technical specification for the 3-layer ARA architecture",
+        "count": 3,
+        "access": "public",
+        "freshness": "monthly",
+        "formats": ["markdown"]
+      },
+      {
+        "id": "examples",
+        "type": "content",
+        "label": "Implementation Examples",
+        "description": "Ready-to-use ARA manifests for e-commerce, SaaS, media, and restaurant sites",
+        "count": 4,
+        "access": "public",
+        "freshness": "monthly",
+        "formats": ["json"]
+      },
+      {
+        "id": "tools",
+        "type": "service_list",
+        "label": "ARA Tools",
+        "description": "Validator and generator CLI tools for ARA adoption",
+        "count": 2,
+        "access": "public"
+      }
+    ],
+    "taxonomy": {
+      "layers": ["discovery", "understanding", "interaction"],
+      "protocols": ["mcp", "a2a", "rest", "graphql"],
+      "adoption_levels": ["level_1_manifest", "level_2_schemas", "level_3_actions", "level_4_full"]
+    }
+  },
+
+  "capabilities": {
+    "protocols": {}
+  },
+
+  "policies": {
+    "agent_access": "open",
+    "data_usage": {
+      "caching_allowed": true,
+      "redistribution": true,
+      "attribution_required": true
+    }
+  },
+
+  "meta": {
+    "generated_at": "2026-02-15T12:00:00Z",
+    "generator": "manual",
+    "human_site": "https://ara-standard.org",
+    "note": "This site is itself ARA-ready — we eat our own dog food."
+  }
+}

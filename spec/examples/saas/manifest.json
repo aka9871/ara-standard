@@ -1,0 +1,394 @@
+{
+  "$ara": "1.0",
+  "identity": {
+    "id": "flowboard-saas",
+    "name": "FlowBoard",
+    "description": "Cloud-based project management and team collaboration platform for agile teams",
+    "version": "3.5.0",
+    "organization": "FlowBoard Inc.",
+    "website": "https://www.flowboard.io",
+    "logo": "https://www.flowboard.io/assets/logo.svg",
+    "contact": {
+      "email": "support@flowboard.io",
+      "phone": "+1-888-FLOWBOARD",
+      "address": "456 Tech Plaza, San Francisco, CA 94102"
+    }
+  },
+  "content_map": {
+    "workspaces": {
+      "type": "collection",
+      "description": "Organization workspaces for team collaboration",
+      "structure": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "owner_id": "string",
+        "members_count": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime",
+        "plan_type": "enum",
+        "is_active": "boolean"
+      }
+    },
+    "projects": {
+      "type": "collection",
+      "description": "Projects within workspaces",
+      "structure": {
+        "id": "string",
+        "workspace_id": "string",
+        "name": "string",
+        "description": "string",
+        "status": "enum",
+        "owner_id": "string",
+        "members": ["object"],
+        "start_date": "datetime",
+        "end_date": "datetime",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    "tasks": {
+      "type": "collection",
+      "description": "Individual tasks and work items",
+      "structure": {
+        "id": "string",
+        "project_id": "string",
+        "title": "string",
+        "description": "string",
+        "status": "enum",
+        "priority": "enum",
+        "assigned_to": "string",
+        "created_by": "string",
+        "due_date": "datetime",
+        "labels": ["string"],
+        "comments_count": "integer",
+        "attachments": ["object"],
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    "plans": {
+      "type": "collection",
+      "description": "Subscription pricing plans",
+      "structure": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "price_monthly": "number",
+        "price_annually": "number",
+        "currency": "string",
+        "features": ["string"],
+        "max_projects": "integer",
+        "max_members": "integer",
+        "storage_gb": "integer",
+        "api_calls_monthly": "integer",
+        "support_level": "enum"
+      }
+    },
+    "features": {
+      "type": "collection",
+      "description": "Available features across plan tiers",
+      "structure": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "category": "enum",
+        "available_in_plans": ["string"],
+        "icon": "string"
+      }
+    },
+    "documentation": {
+      "type": "collection",
+      "description": "API and feature documentation articles",
+      "structure": {
+        "id": "string",
+        "title": "string",
+        "content": "string",
+        "category": "enum",
+        "tags": ["string"],
+        "author": "string",
+        "updated_at": "datetime",
+        "views_count": "integer"
+      }
+    },
+    "teams": {
+      "type": "collection",
+      "description": "Team members within workspace",
+      "structure": {
+        "id": "string",
+        "workspace_id": "string",
+        "user_id": "string",
+        "name": "string",
+        "email": "string",
+        "role": "enum",
+        "joined_at": "datetime"
+      }
+    }
+  },
+  "capabilities": {
+    "rest": {
+      "protocol": "REST",
+      "version": "2.0",
+      "base_url": "https://api.flowboard.io/v2",
+      "authentication": "OAuth2, API Key",
+      "endpoints": [
+        {
+          "path": "/workspaces",
+          "methods": ["GET", "POST"],
+          "description": "List user workspaces or create a new workspace",
+          "parameters": {
+            "page": "integer",
+            "limit": "integer"
+          }
+        },
+        {
+          "path": "/workspaces/{workspace_id}",
+          "methods": ["GET", "PUT"],
+          "description": "Get or update workspace details"
+        },
+        {
+          "path": "/workspaces/{workspace_id}/projects",
+          "methods": ["GET", "POST"],
+          "description": "List projects in workspace or create new project",
+          "parameters": {
+            "status": "enum",
+            "sort": "enum",
+            "page": "integer"
+          }
+        },
+        {
+          "path": "/projects/{project_id}",
+          "methods": ["GET", "PUT", "DELETE"],
+          "description": "Project operations"
+        },
+        {
+          "path": "/projects/{project_id}/tasks",
+          "methods": ["GET", "POST"],
+          "description": "List or create project tasks",
+          "parameters": {
+            "status": "enum",
+            "priority": "enum",
+            "assigned_to": "string",
+            "page": "integer"
+          }
+        },
+        {
+          "path": "/tasks/{task_id}",
+          "methods": ["GET", "PUT", "PATCH", "DELETE"],
+          "description": "Task operations and management"
+        },
+        {
+          "path": "/tasks/{task_id}/comments",
+          "methods": ["GET", "POST"],
+          "description": "Get or post task comments"
+        },
+        {
+          "path": "/plans",
+          "methods": ["GET"],
+          "description": "List available subscription plans"
+        },
+        {
+          "path": "/features",
+          "methods": ["GET"],
+          "description": "Get all available features with plan details"
+        },
+        {
+          "path": "/docs",
+          "methods": ["GET"],
+          "description": "Browse documentation",
+          "parameters": {
+            "category": "string",
+            "search": "string",
+            "page": "integer"
+          }
+        },
+        {
+          "path": "/workspaces/{workspace_id}/teams",
+          "methods": ["GET", "POST"],
+          "description": "Manage team members"
+        }
+      ]
+    },
+    "graphql": {
+      "protocol": "GraphQL",
+      "version": "1.0",
+      "endpoint": "https://api.flowboard.io/graphql",
+      "authentication": "Bearer Token",
+      "types": [
+        {
+          "name": "Workspace",
+          "fields": {
+            "id": "ID!",
+            "name": "String!",
+            "description": "String",
+            "owner": "User!",
+            "projects": "[Project!]!",
+            "teams": "[TeamMember!]!",
+            "plan": "Plan!",
+            "createdAt": "DateTime!",
+            "updatedAt": "DateTime!"
+          }
+        },
+        {
+          "name": "Project",
+          "fields": {
+            "id": "ID!",
+            "name": "String!",
+            "description": "String",
+            "workspace": "Workspace!",
+            "tasks": "[Task!]!",
+            "members": "[TeamMember!]!",
+            "status": "ProjectStatus!",
+            "startDate": "DateTime",
+            "endDate": "DateTime",
+            "createdAt": "DateTime!"
+          }
+        },
+        {
+          "name": "Task",
+          "fields": {
+            "id": "ID!",
+            "title": "String!",
+            "description": "String",
+            "project": "Project!",
+            "status": "TaskStatus!",
+            "priority": "Priority!",
+            "assignedTo": "TeamMember",
+            "dueDate": "DateTime",
+            "comments": "[Comment!]!",
+            "createdBy": "User!",
+            "createdAt": "DateTime!"
+          }
+        },
+        {
+          "name": "Plan",
+          "fields": {
+            "id": "ID!",
+            "name": "String!",
+            "description": "String",
+            "monthlyPrice": "Float!",
+            "annuallyPrice": "Float",
+            "features": "[String!]!",
+            "maxProjects": "Int!",
+            "maxMembers": "Int!",
+            "storageGb": "Int!"
+          }
+        }
+      ],
+      "queries": [
+        {
+          "name": "workspace",
+          "description": "Get workspace by ID",
+          "arguments": {
+            "id": "ID!"
+          }
+        },
+        {
+          "name": "workspaces",
+          "description": "Get all user workspaces",
+          "arguments": {
+            "limit": "Int",
+            "offset": "Int"
+          }
+        },
+        {
+          "name": "project",
+          "description": "Get project by ID",
+          "arguments": {
+            "id": "ID!"
+          }
+        },
+        {
+          "name": "task",
+          "description": "Get task by ID",
+          "arguments": {
+            "id": "ID!"
+          }
+        },
+        {
+          "name": "plans",
+          "description": "Get all available plans"
+        }
+      ],
+      "mutations": [
+        {
+          "name": "createProject",
+          "description": "Create a new project",
+          "arguments": {
+            "workspaceId": "ID!",
+            "name": "String!",
+            "description": "String"
+          }
+        },
+        {
+          "name": "updateTask",
+          "description": "Update task details",
+          "arguments": {
+            "id": "ID!",
+            "title": "String",
+            "status": "TaskStatus",
+            "priority": "Priority"
+          }
+        },
+        {
+          "name": "addTeamMember",
+          "description": "Add member to workspace",
+          "arguments": {
+            "workspaceId": "ID!",
+            "email": "String!",
+            "role": "Role!"
+          }
+        }
+      ]
+    }
+  },
+  "policies": {
+    "access": {
+      "default": "authenticated",
+      "requires_authentication": ["all"],
+      "rate_limiting": {
+        "requests_per_minute": 100,
+        "requests_per_hour": 5000,
+        "concurrent_requests": 10
+      }
+    },
+    "data_usage": {
+      "pii_handling": "encrypted_at_rest_and_transit",
+      "retention_period_days": 730,
+      "gdpr_compliant": true,
+      "ccpa_compliant": true,
+      "data_residency": "US, EU"
+    },
+    "operations": {
+      "allowed_operations": ["create", "read", "update", "delete", "list"],
+      "restricted_operations": ["export_full_workspace"],
+      "requires_approval": ["delete_workspace", "remove_member"]
+    },
+    "cache": {
+      "enabled": true,
+      "ttl_seconds": 60,
+      "cache_headers": true,
+      "etag_support": true
+    },
+    "quotas": {
+      "api_calls_free": 10000,
+      "api_calls_pro": 100000,
+      "api_calls_enterprise": "unlimited",
+      "storage_gb_free": 1,
+      "storage_gb_pro": 50,
+      "storage_gb_enterprise": "custom"
+    }
+  },
+  "meta": {
+    "created_at": "2023-06-01T09:00:00Z",
+    "updated_at": "2024-12-15T16:45:00Z",
+    "specification_version": "1.0",
+    "tags": ["saas", "project-management", "collaboration", "agile", "team"],
+    "dependencies": ["authentication-service", "notification-service", "storage-service"],
+    "related_services": ["slack-integration", "github-integration", "jira-migration"],
+    "support_url": "https://docs.flowboard.io/api",
+    "changelog_url": "https://www.flowboard.io/changelog",
+    "status": "active",
+    "sla_uptime_percentage": 99.95
+  }
+}

@@ -1,0 +1,291 @@
+{
+  "$ara": "1.0",
+  "identity": {
+    "id": "urbanstyle-ecommerce",
+    "name": "UrbanStyle",
+    "description": "Premium online fashion boutique offering curated contemporary clothing, accessories, and seasonal collections",
+    "version": "2.1.0",
+    "organization": "UrbanStyle Fashion Inc.",
+    "website": "https://www.urbanstyle.fashion",
+    "logo": "https://www.urbanstyle.fashion/assets/logo.svg",
+    "contact": {
+      "email": "support@urbanstyle.fashion",
+      "phone": "+1-800-URBANSTYLE",
+      "address": "123 Fashion Avenue, New York, NY 10001"
+    }
+  },
+  "content_map": {
+    "products": {
+      "type": "collection",
+      "description": "Fashion items including apparel, footwear, and accessories",
+      "structure": {
+        "id": "string",
+        "sku": "string",
+        "name": "string",
+        "description": "string",
+        "category": "enum",
+        "price": "number",
+        "currency": "string",
+        "inventory": "integer",
+        "images": ["string"],
+        "colors": ["string"],
+        "sizes": ["string"],
+        "materials": ["string"],
+        "rating": "number",
+        "reviews_count": "integer",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      },
+      "categories": ["Dresses", "Tops", "Bottoms", "Outerwear", "Footwear", "Accessories", "Activewear", "Intimates"]
+    },
+    "collections": {
+      "type": "collection",
+      "description": "Themed seasonal and exclusive product collections",
+      "structure": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "theme": "string",
+        "season": "enum",
+        "product_ids": ["string"],
+        "featured_image": "string",
+        "discount_percentage": "number",
+        "start_date": "datetime",
+        "end_date": "datetime",
+        "created_at": "datetime"
+      }
+    },
+    "reviews": {
+      "type": "collection",
+      "description": "Customer product reviews and ratings",
+      "structure": {
+        "id": "string",
+        "product_id": "string",
+        "customer_name": "string",
+        "rating": "integer",
+        "title": "string",
+        "content": "string",
+        "verified_purchase": "boolean",
+        "helpful_count": "integer",
+        "created_at": "datetime"
+      }
+    },
+    "categories": {
+      "type": "collection",
+      "description": "Product category hierarchy",
+      "structure": {
+        "id": "string",
+        "name": "string",
+        "parent_id": "string",
+        "description": "string",
+        "image": "string",
+        "product_count": "integer"
+      }
+    },
+    "orders": {
+      "type": "collection",
+      "description": "Customer purchase orders",
+      "structure": {
+        "id": "string",
+        "customer_id": "string",
+        "items": ["object"],
+        "total_amount": "number",
+        "currency": "string",
+        "status": "enum",
+        "shipping_address": "object",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    }
+  },
+  "capabilities": {
+    "rest": {
+      "protocol": "REST",
+      "version": "1.1",
+      "base_url": "https://api.urbanstyle.fashion/v1",
+      "authentication": "Bearer Token",
+      "endpoints": [
+        {
+          "path": "/products",
+          "methods": ["GET"],
+          "description": "List all products with filtering and pagination",
+          "parameters": {
+            "category": "string",
+            "min_price": "number",
+            "max_price": "number",
+            "search": "string",
+            "page": "integer",
+            "limit": "integer",
+            "sort": "enum"
+          },
+          "response": {
+            "items": "array",
+            "total": "integer",
+            "page": "integer",
+            "limit": "integer"
+          }
+        },
+        {
+          "path": "/products/{product_id}",
+          "methods": ["GET"],
+          "description": "Retrieve detailed product information",
+          "response": {
+            "id": "string",
+            "name": "string",
+            "description": "string",
+            "price": "number",
+            "inventory": "integer"
+          }
+        },
+        {
+          "path": "/products/{product_id}/reviews",
+          "methods": ["GET", "POST"],
+          "description": "Get product reviews or submit a new review",
+          "parameters": {
+            "rating": "integer",
+            "title": "string",
+            "content": "string"
+          }
+        },
+        {
+          "path": "/collections",
+          "methods": ["GET"],
+          "description": "List all active collections",
+          "parameters": {
+            "season": "string",
+            "page": "integer",
+            "limit": "integer"
+          }
+        },
+        {
+          "path": "/collections/{collection_id}",
+          "methods": ["GET"],
+          "description": "Get collection details with products"
+        },
+        {
+          "path": "/categories",
+          "methods": ["GET"],
+          "description": "Browse product categories",
+          "parameters": {
+            "parent_id": "string"
+          }
+        }
+      ]
+    },
+    "mcp": {
+      "protocol": "MCP",
+      "version": "1.0",
+      "endpoints": [
+        {
+          "name": "search_products",
+          "description": "Search products by keyword, category, or price range",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "query": {
+                "type": "string",
+                "description": "Search query string"
+              },
+              "category": {
+                "type": "string",
+                "description": "Filter by product category"
+              },
+              "min_price": {
+                "type": "number"
+              },
+              "max_price": {
+                "type": "number"
+              }
+            },
+            "required": ["query"]
+          }
+        },
+        {
+          "name": "get_product_reviews",
+          "description": "Fetch customer reviews for a specific product",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "product_id": {
+                "type": "string",
+                "description": "Product identifier"
+              },
+              "limit": {
+                "type": "integer",
+                "description": "Maximum number of reviews to return"
+              }
+            },
+            "required": ["product_id"]
+          }
+        },
+        {
+          "name": "get_collection_products",
+          "description": "Get all products in a specific collection",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "collection_id": {
+                "type": "string"
+              },
+              "sort_by": {
+                "type": "string",
+                "enum": ["price_asc", "price_desc", "newest", "rating"]
+              }
+            },
+            "required": ["collection_id"]
+          }
+        },
+        {
+          "name": "get_current_collections",
+          "description": "Get all currently active seasonal collections",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "season": {
+                "type": "string",
+                "enum": ["spring", "summer", "fall", "winter"]
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "policies": {
+    "access": {
+      "default": "public",
+      "requires_authentication": ["orders", "wishlists"],
+      "rate_limiting": {
+        "requests_per_minute": 60,
+        "requests_per_hour": 1000,
+        "concurrent_requests": 5
+      }
+    },
+    "data_usage": {
+      "pii_handling": "encrypted",
+      "retention_period_days": 365,
+      "gdpr_compliant": true,
+      "ccpa_compliant": true
+    },
+    "operations": {
+      "allowed_operations": ["read", "list", "search", "filter"],
+      "restricted_operations": ["delete", "export_bulk"],
+      "requires_approval": []
+    },
+    "cache": {
+      "enabled": true,
+      "ttl_seconds": 300,
+      "cache_headers": true
+    }
+  },
+  "meta": {
+    "created_at": "2024-01-15T10:00:00Z",
+    "updated_at": "2024-12-10T14:30:00Z",
+    "specification_version": "1.0",
+    "tags": ["ecommerce", "fashion", "retail", "products", "reviews"],
+    "dependencies": [],
+    "related_services": ["payment-gateway", "inventory-system", "notification-service"],
+    "support_url": "https://support.urbanstyle.fashion/api-docs",
+    "status": "active"
+  }
+}

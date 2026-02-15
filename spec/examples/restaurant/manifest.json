@@ -1,0 +1,335 @@
+{
+  "$ara": "1.0",
+  "identity": {
+    "id": "le-jardin-restaurant",
+    "name": "Le Jardin",
+    "description": "Michelin-starred French fine dining restaurant featuring classic and contemporary French cuisine in an elegant garden setting",
+    "version": "1.2.0",
+    "organization": "Le Jardin Restaurant Group",
+    "website": "https://www.lejardin-restaurant.com",
+    "logo": "https://www.lejardin-restaurant.com/assets/logo.svg",
+    "contact": {
+      "email": "reservations@lejardin-restaurant.com",
+      "phone": "+33-1-4567-8901",
+      "address": "42 Avenue des Champs Élysées, 75008 Paris, France"
+    }
+  },
+  "content_map": {
+    "menu": {
+      "type": "collection",
+      "description": "Restaurant menu with dishes, descriptions, and pricing",
+      "structure": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "course_type": "enum",
+        "price": "number",
+        "currency": "string",
+        "ingredients": ["string"],
+        "allergens": ["string"],
+        "calories": "integer",
+        "vegetarian": "boolean",
+        "vegan": "boolean",
+        "gluten_free": "boolean",
+        "prepared_by": "string",
+        "image": "string",
+        "seasonal": "boolean",
+        "available": "boolean"
+      }
+    },
+    "menu_versions": {
+      "type": "collection",
+      "description": "Menu versions for different seasons and special occasions",
+      "structure": {
+        "id": "string",
+        "name": "string",
+        "season": "enum",
+        "valid_from": "datetime",
+        "valid_until": "datetime",
+        "description": "string",
+        "price_per_person": "number",
+        "course_count": "integer",
+        "menu_items": ["string"]
+      }
+    },
+    "reservations": {
+      "type": "collection",
+      "description": "Table reservations and bookings",
+      "structure": {
+        "id": "string",
+        "reservation_code": "string",
+        "guest_name": "string",
+        "email": "string",
+        "phone": "string",
+        "party_size": "integer",
+        "reservation_date": "datetime",
+        "reservation_time": "string",
+        "duration_minutes": "integer",
+        "special_requests": "string",
+        "table_id": "string",
+        "status": "enum",
+        "created_at": "datetime",
+        "updated_at": "datetime"
+      }
+    },
+    "tables": {
+      "type": "collection",
+      "description": "Restaurant tables and seating information",
+      "structure": {
+        "id": "string",
+        "number": "integer",
+        "capacity": "integer",
+        "location": "string",
+        "features": ["string"],
+        "is_available": "boolean"
+      }
+    },
+    "reviews": {
+      "type": "collection",
+      "description": "Customer reviews and ratings",
+      "structure": {
+        "id": "string",
+        "reviewer_name": "string",
+        "reviewer_email": "string",
+        "rating": "integer",
+        "title": "string",
+        "content": "string",
+        "visit_date": "datetime",
+        "verified_reservation": "boolean",
+        "helpful_count": "integer",
+        "images": ["string"],
+        "created_at": "datetime"
+      }
+    },
+    "wine_list": {
+      "type": "collection",
+      "description": "Wine collection and pairings",
+      "structure": {
+        "id": "string",
+        "name": "string",
+        "type": "enum",
+        "region": "string",
+        "vintage": "integer",
+        "producer": "string",
+        "price": "number",
+        "currency": "string",
+        "description": "string",
+        "pairing_suggestions": ["string"],
+        "in_stock": "boolean",
+        "quantity": "integer"
+      }
+    },
+    "staff": {
+      "type": "collection",
+      "description": "Kitchen and service staff information",
+      "structure": {
+        "id": "string",
+        "name": "string",
+        "role": "enum",
+        "specialization": "string",
+        "experience_years": "integer",
+        "bio": "string",
+        "certifications": ["string"],
+        "avatar": "string"
+      }
+    },
+    "events": {
+      "type": "collection",
+      "description": "Special events and dining experiences",
+      "structure": {
+        "id": "string",
+        "name": "string",
+        "description": "string",
+        "event_type": "enum",
+        "date": "datetime",
+        "price_per_person": "number",
+        "max_guests": "integer",
+        "current_reservations": "integer",
+        "menu_preview": ["string"],
+        "special_features": ["string"]
+      }
+    }
+  },
+  "capabilities": {
+    "rest": {
+      "protocol": "REST",
+      "version": "1.0",
+      "base_url": "https://api.lejardin-restaurant.com/v1",
+      "authentication": "API Key",
+      "endpoints": [
+        {
+          "path": "/menu",
+          "methods": ["GET"],
+          "description": "Get current menu with all dishes",
+          "parameters": {
+            "course_type": "enum",
+            "dietary_filter": "array",
+            "seasonal_only": "boolean"
+          },
+          "response": {
+            "items": "array",
+            "total": "integer"
+          }
+        },
+        {
+          "path": "/menu/{dish_id}",
+          "methods": ["GET"],
+          "description": "Get detailed dish information"
+        },
+        {
+          "path": "/menu-versions",
+          "methods": ["GET"],
+          "description": "List all menu versions",
+          "parameters": {
+            "season": "string",
+            "active_only": "boolean"
+          }
+        },
+        {
+          "path": "/menu-versions/{version_id}",
+          "methods": ["GET"],
+          "description": "Get specific menu version details"
+        },
+        {
+          "path": "/reservations/availability",
+          "methods": ["GET"],
+          "description": "Check table availability for given date and time",
+          "parameters": {
+            "date": "string",
+            "time": "string",
+            "party_size": "integer"
+          },
+          "response": {
+            "available_slots": "array",
+            "available_tables": "array"
+          }
+        },
+        {
+          "path": "/reservations",
+          "methods": ["GET", "POST"],
+          "description": "List reservations or create new reservation",
+          "parameters": {
+            "email": "string",
+            "reservation_code": "string"
+          }
+        },
+        {
+          "path": "/reservations/{reservation_id}",
+          "methods": ["GET", "PUT", "DELETE"],
+          "description": "Manage specific reservation"
+        },
+        {
+          "path": "/tables",
+          "methods": ["GET"],
+          "description": "List restaurant tables and seating information"
+        },
+        {
+          "path": "/reviews",
+          "methods": ["GET", "POST"],
+          "description": "Get reviews or submit new review",
+          "parameters": {
+            "sort": "enum",
+            "page": "integer",
+            "limit": "integer"
+          }
+        },
+        {
+          "path": "/wine-list",
+          "methods": ["GET"],
+          "description": "Get wine collection",
+          "parameters": {
+            "type": "enum",
+            "region": "string",
+            "price_max": "number",
+            "in_stock_only": "boolean"
+          }
+        },
+        {
+          "path": "/wine-list/{wine_id}/pairings",
+          "methods": ["GET"],
+          "description": "Get wine pairing recommendations with menu items"
+        },
+        {
+          "path": "/staff",
+          "methods": ["GET"],
+          "description": "View chef and staff profiles"
+        },
+        {
+          "path": "/events",
+          "methods": ["GET"],
+          "description": "List upcoming special events",
+          "parameters": {
+            "event_type": "string",
+            "available_only": "boolean"
+          }
+        },
+        {
+          "path": "/events/{event_id}",
+          "methods": ["GET"],
+          "description": "Get event details and menu preview"
+        },
+        {
+          "path": "/events/{event_id}/book",
+          "methods": ["POST"],
+          "description": "Book tickets for special event"
+        }
+      ]
+    }
+  },
+  "policies": {
+    "access": {
+      "default": "public",
+      "requires_authentication": ["manage_reservations"],
+      "rate_limiting": {
+        "requests_per_minute": 20,
+        "requests_per_hour": 300,
+        "concurrent_requests": 2
+      }
+    },
+    "data_usage": {
+      "pii_handling": "encrypted",
+      "retention_period_days": 180,
+      "gdpr_compliant": true,
+      "ccpa_compliant": true
+    },
+    "operations": {
+      "allowed_operations": ["read", "create", "update", "delete"],
+      "restricted_operations": ["export_customer_list"],
+      "requires_approval": ["large_group_reservations", "event_modifications"]
+    },
+    "cache": {
+      "enabled": true,
+      "ttl_seconds": 300,
+      "cache_headers": true
+    },
+    "reservations": {
+      "cancellation_allowed_hours_before": 24,
+      "modification_allowed_hours_before": 12,
+      "no_show_policy": "charge_50_percent",
+      "max_advance_booking_days": 90
+    }
+  },
+  "meta": {
+    "created_at": "2023-09-01T10:00:00Z",
+    "updated_at": "2024-12-10T09:30:00Z",
+    "specification_version": "1.0",
+    "tags": ["restaurant", "fine-dining", "french-cuisine", "reservations", "wine"],
+    "dependencies": ["payment-service", "email-service", "calendar-service"],
+    "related_services": ["table-management", "inventory-system", "review-aggregator"],
+    "support_url": "https://www.lejardin-restaurant.com/api-support",
+    "status": "active",
+    "certifications": ["Michelin 1 Star", "HACCP Certified", "ISO 9001"],
+    "operating_hours": {
+      "lunch": "12:00-14:30",
+      "dinner": "19:00-23:00",
+      "closed_days": ["Monday", "Tuesday"]
+    },
+    "seasonal_closures": [
+      {
+        "name": "Summer Renovation",
+        "from": "2025-07-15",
+        "to": "2025-08-31"
+      }
+    ]
+  }
+}

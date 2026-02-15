@@ -1,0 +1,28 @@
+{
+  "name": "ara-generate",
+  "version": "1.0.0",
+  "description": "Generates ARA manifests from existing website metadata",
+  "main": "index.js",
+  "bin": {
+    "ara-generate": "./index.js"
+  },
+  "keywords": [
+    "ara",
+    "agent-ready",
+    "web-standard",
+    "ai-agents",
+    "manifest",
+    "generator",
+    "mcp"
+  ],
+  "author": "ARA Standard Contributors",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ARA-Standard/ara-standard"
+  },
+  "homepage": "https://ara-standard.org",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
