@@ -5,72 +5,93 @@
   "identity": {
     "name": "ARA Standard",
     "type": "documentation",
-    "description": "The official specification, tools, and examples for the ARA (Agent-Ready Architecture) open web standard. ARA enables any website to be understood and interacted with by autonomous AI agents.",
+    "description": "The official specification, tools, and Claude Code agents for the ARA (Agent-Ready Architecture) open web standard. ARA enables any website to be understood and interacted with by autonomous AI agents — reducing token consumption by 12.8x vs HTML parsing.",
     "sector": "technology",
-    "locale": ["en"],
+    "locale": ["en-US"],
     "contact": {
       "website": "https://ara-standard.org",
       "email": "ara-support@ara-standard.org",
-      "github": "https://github.com/ARA-Standard/ara-standard"
+      "github": "https://github.com/aka9871/ara-standard"
     }
   },
 
   "content_map": {
-    "summary": "ARA v1.0 specification with 3-layer architecture (Discovery, Understanding, Interaction), 4 sector examples, validator and generator tools",
+    "summary": "ARA v1.0 specification: 3-layer architecture (Discovery, Understanding, Interaction), 4 sector examples, 2 CLI tools (ara-validate, ara-generate), 4 Claude Code agents (ara-auditor, ara-transformer, ara-enforcer, ara-monitor)",
     "resources": [
       {
         "id": "specification",
         "type": "content",
         "label": "ARA v1.0 Specification",
-        "description": "Full technical specification for the 3-layer ARA architecture",
+        "description": "Full technical specification for the 3-layer ARA architecture — manifest, schemas, actions",
         "count": 3,
         "access": "public",
         "freshness": "monthly",
-        "formats": ["markdown"]
+        "formats": ["markdown"],
+        "schema_ref": "schemas/specification.json"
       },
       {
         "id": "examples",
         "type": "content",
         "label": "Implementation Examples",
-        "description": "Ready-to-use ARA manifests for e-commerce, SaaS, media, and restaurant sites",
+        "description": "Ready-to-use ARA manifests for e-commerce, SaaS, media, and restaurant sectors",
         "count": 4,
         "access": "public",
         "freshness": "monthly",
-        "formats": ["json"]
+        "formats": ["json"],
+        "schema_ref": "schemas/examples.json"
       },
       {
         "id": "tools",
         "type": "service_list",
-        "label": "ARA Tools",
-        "description": "Validator and generator CLI tools for ARA adoption",
+        "label": "CLI Tools",
+        "description": "npx ara-validate (score A-F) and npx ara-generate (manifest generator from HTML/JSON-LD) — zero dependencies",
         "count": 2,
-        "access": "public"
+        "access": "public",
+        "schema_ref": "schemas/tools.json"
+      },
+      {
+        "id": "agents",
+        "type": "service_list",
+        "label": "Claude Code Agents",
+        "description": "4 agents covering full ARA lifecycle: ara-auditor (audit), ara-transformer (generate), ara-enforcer (enforce), ara-monitor (measure GEO impact)",
+        "count": 4,
+        "access": "public",
+        "freshness": "weekly"
       }
     ],
     "taxonomy": {
-      "layers": ["discovery", "understanding", "interaction"],
+      "layers": ["discovery", "understanding", "interaction", "geo"],
       "protocols": ["mcp", "a2a", "rest", "graphql"],
-      "adoption_levels": ["level_1_manifest", "level_2_schemas", "level_3_actions", "level_4_full"]
+      "adoption_levels": ["level_1_manifest", "level_2_schemas", "level_3_actions", "level_4_full"],
+      "enforcement": ["http_headers", "html_hints", "json_ld", "content_negotiation"]
     }
   },
 
   "capabilities": {
-    "protocols": {}
+    "protocols": {
+      "rest_api": true
+    },
+    "actions_ref": "/.well-known/ara/actions.json"
   },
 
   "policies": {
     "agent_access": "open",
+    "rate_limit": {
+      "requests_per_minute": 60,
+      "requests_per_hour": 1000
+    },
     "data_usage": {
       "caching_allowed": true,
-      "redistribution": true,
+      "cache_ttl_hours": 1,
+      "license": "CC BY 4.0",
       "attribution_required": true
     }
   },
 
   "meta": {
-    "generated_at": "2026-02-15T12:00:00Z",
+    "generated_at": "2026-04-16T00:00:00Z",
     "generator": "manual",
-    "human_site": "https://ara-standard.org",
-    "note": "This site is itself ARA-ready — we eat our own dog food."
+    "human_site": true,
+    "note": "This repository is itself ARA-ready — we eat our own dog food."
   }
 }

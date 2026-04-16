@@ -95,9 +95,14 @@ A minimal ARA manifest for an e-commerce site:
 |----------|----------------------------|-------------|
 | DOM/HTML parsing | 15,000 – 50,000 | Fragile |
 | Screenshot analysis | 5,000 – 15,000 per page | Approximate |
-| **ARA manifest + digest** | **500 – 1,500** | **Structured & reliable** |
+| **ARA manifest + digest** | **300 – 1,500** | **Structured & reliable** |
 
-**ARA reduces agent token consumption by 10-20x.**
+**ARA reduces agent token consumption by 12.8x (measured) vs raw HTML parsing.**
+
+Real-world measurement on ara-standard.org:
+- Without ARA: 10,830 tokens (HTML), ~55% of information retrieved
+- With ARA: 844 tokens (manifest), 100% of information retrieved
+- Result: **12.8x fewer tokens, 100% accuracy**
 
 ## How It Compares
 
@@ -126,6 +131,46 @@ You don't need to implement everything at once. ARA supports incremental adoptio
 | **Level 4** | Full ARA + MCP/A2A | Complete integration | Native agent experience |
 
 **Even Level 1 (a single JSON file) reduces token consumption by 90%.**
+
+## Claude Code Agents
+
+The fastest way to make any site ARA-ready. Four agents covering the full lifecycle, available at [github.com/aka9871/claude-ara-agents](https://github.com/aka9871/claude-ara-agents).
+
+| Agent | What it does | Command |
+|-------|-------------|---------|
+| `ara-auditor` | Scores any site A-F across 13 criteria, detects llms.txt | `/ara audit <url>` |
+| `ara-transformer` | Generates all 4 ARA files from any URL or local codebase | `/ara transform <url>` |
+| `ara-enforcer` | Injects content-negotiation middleware for 8+ frameworks | `/ara enforce <url>` |
+| `ara-monitor` | Measures GEO impact — citation rate and semantic accuracy | `/ara monitor <url>` |
+
+**Full workflow:**
+```bash
+/ara transform https://yoursite.com   # generates manifest.json, schemas/, actions.json, digest.md
+/ara enforce https://yoursite.com     # injects middleware (Next.js / nginx / WordPress / ...)
+/ara audit https://yoursite.com       # verifies score A-F
+/ara monitor https://yoursite.com     # measures GEO impact after 7-14 days
+```
+
+### Enforcement — forcing AI bots to use ARA
+
+AI bots (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, and 10 others) don't know ARA exists yet. `ara-enforcer` solves this with server-side content negotiation:
+
+```
+GPTBot visits your site → server detects User-Agent
+→ 302 redirect to /.well-known/ara/digest.md
+→ bot reads 300 tokens of structured context
+→ done (no ARA knowledge required on the bot's side)
+```
+
+This works via a 4-layer signal strategy:
+1. **HTTP headers** — `Link: </.well-known/ara/manifest.json>; rel="ara-manifest"` on every response
+2. **HTML `<head>` hints** — `<link rel="ara-manifest">` + `<meta name="ara:manifest">` tags
+3. **JSON-LD** — `potentialAction` pointing to the manifest (Schema.org-compatible)
+4. **Content negotiation** — 302 redirect for known AI bot User-Agents
+
+Supported stacks: Next.js, Cloudflare Worker, nginx, Apache, WordPress, Laravel, Django, Vercel.
+
+---
 
 ## Getting Started
 
@@ -170,8 +215,9 @@ for resource in manifest["content_map"]["resources"]:
   - [Layer 1 — Discovery (manifest.json)](spec/v1.0/manifest.md)
   - [Layer 2 — Understanding (schemas/)](spec/v1.0/schemas.md)
   - [Layer 3 — Interaction (actions.json)](spec/v1.0/actions.md)
-- **[Examples](spec/examples/)** — Ready-to-use manifests for different site types
-- **[Tools](tools/)** — Validator and generator
+- **[Examples](spec/examples/)** — Ready-to-use manifests for e-commerce, SaaS, media, restaurant
+- **[Tools](tools/)** — `npx ara-validate` (scorer) and `npx ara-generate` (manifest generator)
+- **[Claude Code Agents](https://github.com/aka9871/claude-ara-agents)** — 4 agents for the full lifecycle + middleware for 8+ stacks
 
 ## Use Cases
 

@@ -1,7 +1,7 @@
 {
   "name": "ara-generate",
-  "version": "1.0.0",
-  "description": "Generates ARA manifests from existing website metadata",
+  "version": "2.0.0",
+  "description": "Generates ARA manifests and schemas from existing website metadata (JSON-LD, Microdata, OpenGraph, sitemap)",
   "main": "index.js",
   "bin": {
     "ara-generate": "./index.js"
@@ -13,16 +13,24 @@
     "ai-agents",
     "manifest",
     "generator",
-    "mcp"
+    "schema",
+    "json-ld",
+    "microdata",
+    "mcp",
+    "a2a"
   ],
   "author": "ARA Standard Contributors",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ARA-Standard/ara-standard"
+    "url": "https://github.com/aka9871/ara-standard"
   },
   "homepage": "https://ara-standard.org",
   "engines": {
     "node": ">=16.0.0"
-  }
+  },
+  "files": [
+    "index.js",
+    "README.md"
+  ]
 }

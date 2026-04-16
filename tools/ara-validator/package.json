@@ -1,6 +1,6 @@
 {
   "name": "ara-validate",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Validator for ARA (Agent-Ready Architecture) manifest files",
   "main": "index.js",
   "bin": {
@@ -20,7 +20,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ARA-Standard/ara-standard"
+    "url": "https://github.com/aka9871/ara-standard"
   },
   "homepage": "https://ara-standard.org",
   "engines": {
