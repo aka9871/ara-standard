@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - `ara-transformer`: generates all 4 ARA files from any URL or local codebase
   - `ara-enforcer`: injects content-negotiation middleware for 8+ frameworks (Next.js, nginx, WordPress, Laravel, Django, Cloudflare Worker, Apache, Vercel)
   - `ara-monitor`: measures GEO impact via citation probes and semantic accuracy
-  - Available at: https://github.com/aka9871/claude-ara-agents
+  - Available at: https://github.com/aka9871/ara-agents
 - **Enforcement specification** — 4-layer signal strategy for forcing AI bots to use ARA without native standard support:
   - Layer 1: HTTP headers (`Link: rel="ara-manifest"`, `X-ARA-Manifest`, `X-ARA-Version`)
   - Layer 2: HTML `<head>` meta hints (`<link rel="ara-manifest">`, `<meta name="ara:manifest">`)

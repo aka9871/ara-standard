@@ -134,7 +134,7 @@ You don't need to implement everything at once. ARA supports incremental adoptio
 
 ## Claude Code Agents
 
-The fastest way to make any site ARA-ready. Four agents covering the full lifecycle, available at [github.com/aka9871/claude-ara-agents](https://github.com/aka9871/claude-ara-agents).
+The fastest way to make any site ARA-ready. Four agents covering the full lifecycle, available at [github.com/aka9871/ara-agents](https://github.com/aka9871/ara-agents).
 
 | Agent | What it does | Command |
 |-------|-------------|---------|
@@ -217,7 +217,7 @@ for resource in manifest["content_map"]["resources"]:
   - [Layer 3 — Interaction (actions.json)](spec/v1.0/actions.md)
 - **[Examples](spec/examples/)** — Ready-to-use manifests for e-commerce, SaaS, media, restaurant
 - **[Tools](tools/)** — `npx ara-validate` (scorer) and `npx ara-generate` (manifest generator)
-- **[Claude Code Agents](https://github.com/aka9871/claude-ara-agents)** — 4 agents for the full lifecycle + middleware for 8+ stacks
+- **[Claude Code Agents](https://github.com/aka9871/ara-agents)** — 4 agents for the full lifecycle + middleware for 8+ stacks
 
 ## Use Cases
 

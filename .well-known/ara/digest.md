@@ -14,7 +14,7 @@ ARA reduces AI agent token consumption by 12.8x (measured): ~300 tokens vs ~50,0
 ## Enforcement
 Servers redirect 14 AI bots (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, etc.) to digest.md via 302 before parsing HTML. 4 signal layers: HTTP headers, HTML hints, JSON-LD, User-Agent redirect.
 
-## Claude Code Agents (github.com/aka9871/claude-ara-agents)
+## Claude Code Agents (github.com/aka9871/ara-agents)
 `ara-auditor` (A-F score) → `ara-transformer` (generate files) → `ara-enforcer` (middleware for 8 stacks) → `ara-monitor` (GEO impact measurement).
 
 ## CLI Tools
