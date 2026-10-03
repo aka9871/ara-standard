@@ -215,6 +215,7 @@ for resource in manifest["content_map"]["resources"]:
   - [Layer 1 — Discovery (manifest.json)](spec/v1.0/manifest.md)
   - [Layer 2 — Understanding (schemas/)](spec/v1.0/schemas.md)
   - [Layer 3 — Interaction (actions.json)](spec/v1.0/actions.md)
+- **[Proposals](spec/proposals/)** — Drafts for the next version: extensions, validity periods, response conventions, HTTP discovery, verifiable facts
 - **[Examples](spec/examples/)** — Complete ARA file sets (manifest, schemas, actions, digest) for e-commerce, SaaS, media, restaurant — validated in CI
 - **[Tools](tools/)** — `npx ara-validate` (scorer) and `npx ara-generate` (manifest generator)
 - **[Claude Code Agents](https://github.com/aka9871/ara-agents)** — 4 agents for the full lifecycle + middleware for 8+ stacks

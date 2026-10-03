@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 - CI: validator tests, examples must score 100 with no issue or warning, the repository's manifest must have no issue.
+- Draft proposals for the next version in `spec/proposals/` (not normative): extension mechanism, validity period, response conventions, HTTP discovery (targets 1.1), verifiable facts profile (2.0 or opt-in).
 
 ## [1.1.0] — 2026-04-16
 
