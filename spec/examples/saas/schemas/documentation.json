@@ -1,0 +1,58 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "documentation",
+  "description": "API and feature documentation articles",
+  "extends": "schema:TechArticle",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the documentation",
+      "semantic": "identifier"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the documentation",
+      "semantic": "schema:headline"
+    },
+    "content": {
+      "type": "string",
+      "description": "Content of the documentation",
+      "semantic": "schema:articleBody"
+    },
+    "category": {
+      "type": "string",
+      "description": "Category of the documentation",
+      "semantic": "schema:category"
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags of the documentation",
+      "items": {
+        "type": "string"
+      },
+      "semantic": "schema:keywords"
+    },
+    "author": {
+      "type": "string",
+      "description": "Author of the documentation"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Updated at of the documentation",
+      "format": "date-time",
+      "semantic": "schema:dateModified"
+    },
+    "views_count": {
+      "type": "integer",
+      "description": "Views count of the documentation"
+    }
+  },
+  "search_hints": {
+    "filterable": [],
+    "sortable": [],
+    "fulltext": [
+      "title",
+      "content"
+    ]
+  }
+}

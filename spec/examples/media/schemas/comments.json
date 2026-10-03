@@ -1,0 +1,77 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "comments",
+  "description": "Reader comments and discussions",
+  "extends": "schema:Comment",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the comment",
+      "semantic": "identifier"
+    },
+    "article_id": {
+      "type": "string",
+      "description": "Article identifier of the comment"
+    },
+    "author_name": {
+      "type": "string",
+      "description": "Author name of the comment"
+    },
+    "author_email": {
+      "type": "string",
+      "description": "Author email of the comment"
+    },
+    "content": {
+      "type": "string",
+      "description": "Content of the comment",
+      "semantic": "schema:articleBody"
+    },
+    "approved": {
+      "type": "boolean",
+      "description": "Approved of the comment"
+    },
+    "likes": {
+      "type": "integer",
+      "description": "Likes of the comment"
+    },
+    "replies": {
+      "type": "array",
+      "description": "Replies of the comment",
+      "items": {
+        "type": "object"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Created at of the comment",
+      "format": "date-time",
+      "semantic": "schema:dateCreated"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Updated at of the comment",
+      "format": "date-time",
+      "semantic": "schema:dateModified"
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "approved_only"
+    ],
+    "sortable": [
+      "created_at",
+      "updated_at"
+    ],
+    "fulltext": [
+      "content"
+    ]
+  },
+  "relationships": [
+    {
+      "name": "article",
+      "target": "articles",
+      "type": "parent",
+      "description": "The article referenced by article_id"
+    }
+  ]
+}

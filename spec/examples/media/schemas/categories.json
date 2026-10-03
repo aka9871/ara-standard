@@ -1,0 +1,48 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "categories",
+  "description": "Article categories and taxonomy",
+  "extends": "schema:DefinedTerm",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the category",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the category",
+      "semantic": "schema:name"
+    },
+    "slug": {
+      "type": "string",
+      "description": "Slug of the category",
+      "semantic": "schema:identifier"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the category",
+      "semantic": "schema:description"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Icon of the category"
+    },
+    "article_count": {
+      "type": "integer",
+      "description": "Article count of the category"
+    },
+    "parent_category_id": {
+      "type": "string",
+      "description": "Parent category identifier of the category"
+    }
+  },
+  "search_hints": {
+    "filterable": [],
+    "sortable": [],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  }
+}

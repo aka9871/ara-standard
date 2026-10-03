@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * ARA Validator v1.1 — Validates ARA manifest files against the v1.0 specification.
+ * ARA Validator v1.1.1 — Validates ARA manifest files against the v1.0 specification.
  *
  * Usage:
  *   npx ara-validate https://example.com
@@ -47,7 +47,7 @@ function fetchUrl(url, includeHeaders = false) {
   return new Promise((resolve, reject) => {
     const client = url.startsWith("https") ? https : http;
     client
-      .get(url, { headers: { "User-Agent": "ARA-Validator/1.1" } }, (res) => {
+      .get(url, { headers: { "User-Agent": "ARA-Validator/1.1.1" } }, (res) => {
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
           return fetchUrl(res.headers.location, includeHeaders).then(resolve).catch(reject);
         }
@@ -63,6 +63,15 @@ function fetchUrl(url, includeHeaders = false) {
       })
       .on("error", reject);
   });
+}
+
+/**
+ * Resolves a reference found in the manifest (schema_ref, actions_ref) per RFC 3986, relative to
+ * the manifest URL. "schemas/product.json" → /.well-known/ara/schemas/product.json;
+ * absolute paths and absolute URLs are kept as they are.
+ */
+function resolveRef(ref, manifestUrl) {
+  return new URL(ref, manifestUrl).toString();
 }
 
 // Rough token estimate: ~4 characters per token (conservative)
@@ -202,10 +211,10 @@ async function validate(input) {
   let manifest;
   const isUrl = input.startsWith("http://") || input.startsWith("https://");
   const baseUrl = isUrl ? input.replace(/\/$/, "") : null;
+  const manifestUrl = isUrl ? baseUrl + "/.well-known/ara/manifest.json" : null;
 
   // ── Fetch or read manifest ──────────────────────────────────────────────
   if (isUrl) {
-    const manifestUrl = baseUrl + "/.well-known/ara/manifest.json";
     results.info.push(`Fetching ${manifestUrl}`);
 
     try {
@@ -259,7 +268,7 @@ async function validate(input) {
 
     if (schemaRefs.length > 0) {
       try {
-        const schemaUrl = baseUrl + "/" + schemaRefs[0].replace(/^\//, "");
+        const schemaUrl = resolveRef(schemaRefs[0], manifestUrl);
         const schemaResponse = await fetchUrl(schemaUrl);
         if (schemaResponse.status === 200) {
           try {
@@ -286,9 +295,9 @@ async function validate(input) {
     // ── Check actions.json ─────────────────────────────────────────────────
     const actionsRef =
       (manifest.capabilities && manifest.capabilities.actions_ref) ||
-      "/.well-known/ara/actions.json";
+      "actions.json";
     try {
-      const actionsUrl = baseUrl + actionsRef.replace(/^\//, "/");
+      const actionsUrl = resolveRef(actionsRef, manifestUrl);
       const actionsResponse = await fetchUrl(actionsUrl);
       if (actionsResponse.status === 200) {
         try {
@@ -311,7 +320,7 @@ async function validate(input) {
 
     // ── Check enforcement signals (ARA HTTP headers) ───────────────────────
     try {
-      const homeResponse = await fetchUrl(baseUrl, true);
+      const homeResponse = await fetchUrl(baseUrl + "/", true);
       const headers = homeResponse.headers || {};
       const linkHeader = headers["link"] || "";
       const araManifestHeader = headers["x-ara-manifest"] || "";
@@ -457,7 +466,7 @@ async function main() {
 
   if (!input || input === "--help" || input === "-h") {
     console.log(`
-ARA Validator v1.1
+ARA Validator v1.1.1
 ==================
 
 Validates ARA (Agent-Ready Architecture) manifest files.
@@ -494,7 +503,7 @@ Scoring (100 points):
 
   const jsonOutput = process.argv.includes("--json");
 
-  console.log("\n  ARA Validator v1.1\n  ==================\n");
+  console.log("\n  ARA Validator v1.1.1\n  ==================\n");
 
   const results = await validate(input);
 
@@ -540,9 +549,12 @@ Scoring (100 points):
   process.exit(results.issues.length > 0 ? 1 : 0);
 }
 
-main().catch((err) => {
-  console.error("Error:", err.message);
-  process.exit(1);
-});
+// Run the CLI only when executed directly, so `require("ara-validate")` can be used as a library.
+if (require.main === module) {
+  main().catch((err) => {
+    console.error("Error:", err.message);
+    process.exit(1);
+  });
+}
 
-module.exports = { validate };
+module.exports = { validate, resolveRef, SCORES, MAX_SCORE };

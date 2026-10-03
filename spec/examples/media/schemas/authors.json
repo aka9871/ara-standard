@@ -1,0 +1,62 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "authors",
+  "description": "Staff writers and contributing journalists",
+  "extends": "schema:Person",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the author",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the author",
+      "semantic": "schema:name"
+    },
+    "bio": {
+      "type": "string",
+      "description": "Bio of the author"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email of the author",
+      "semantic": "schema:email"
+    },
+    "avatar": {
+      "type": "string",
+      "description": "Avatar of the author"
+    },
+    "specializations": {
+      "type": "array",
+      "description": "Specializations of the author",
+      "items": {
+        "type": "string"
+      }
+    },
+    "article_count": {
+      "type": "integer",
+      "description": "Article count of the author"
+    },
+    "followers_count": {
+      "type": "integer",
+      "description": "Followers count of the author"
+    },
+    "verified": {
+      "type": "boolean",
+      "description": "Verified of the author"
+    },
+    "joined_at": {
+      "type": "string",
+      "description": "Joined at of the author",
+      "format": "date-time"
+    }
+  },
+  "search_hints": {
+    "filterable": [],
+    "sortable": [],
+    "fulltext": [
+      "name"
+    ]
+  }
+}

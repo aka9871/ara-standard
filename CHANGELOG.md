@@ -4,6 +4,20 @@ All notable changes to the ARA specification will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [Unreleased]
+
+### Fixed
+- **Reference resolution specified** (`manifest.md` § Reference Resolution): `schema_ref`, `actions_ref` and `$ref` are RFC 3986 references resolved against the file that contains them; without `actions_ref`, `actions.json` is looked up next to the manifest.
+- **`meta.human_site` is a URL**, as in the field table. This reverts the 1.1.0 note that made it a boolean: a URL tells agents where the human site is, a boolean does not. The repository's own manifest is updated.
+- **MCP `version` example**: `"2025-03"` was not an MCP revision; the example now uses `"2025-11-25"` and the field is defined as the MCP protocol revision.
+- **Examples rewritten to match the spec text** (`spec/examples/*`): each is now a complete set — manifest, schemas, actions, digest — scoring 100/100.
+- **`ara-validate` 1.1.1**: references resolved per RFC 3986 (relative `schema_ref`/`actions_ref` from the spec examples were mis-resolved), module importable without exiting (`require("ara-validate").validate`), test suite.
+- README quickstart pointed to a non-existent `examples/minimal-manifest.json`.
+
+### Added
+- CI: validator tests, examples must score 100 with no issue or warning, the repository's manifest must have no issue.
+- Draft proposals for the next version in `spec/proposals/` (not normative): extension mechanism, validity period, response conventions, HTTP discovery (targets 1.1), verifiable facts profile (2.0 or opt-in).
+
 ## [1.1.0] — 2026-04-16
 
 ### Added

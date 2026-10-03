@@ -158,6 +158,8 @@ Action inputs and outputs follow JSON Schema format, with the same semantic exte
 }
 ```
 
+`$ref` values are resolved like any ARA reference (see [Reference Resolution](manifest.md#reference-resolution)): `"schemas/product.json"` in `/.well-known/ara/actions.json` designates `/.well-known/ara/schemas/product.json`.
+
 ---
 
 ## Protocol Mappings

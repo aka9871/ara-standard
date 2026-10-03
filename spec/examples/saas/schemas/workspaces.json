@@ -1,0 +1,58 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "workspaces",
+  "description": "Organization workspaces for team collaboration",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the workspace",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the workspace",
+      "semantic": "schema:name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the workspace",
+      "semantic": "schema:description"
+    },
+    "owner_id": {
+      "type": "string",
+      "description": "Owner identifier of the workspace"
+    },
+    "members_count": {
+      "type": "integer",
+      "description": "Members count of the workspace"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Created at of the workspace",
+      "format": "date-time",
+      "semantic": "schema:dateCreated"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Updated at of the workspace",
+      "format": "date-time",
+      "semantic": "schema:dateModified"
+    },
+    "plan_type": {
+      "type": "string",
+      "description": "Plan type of the workspace"
+    },
+    "is_active": {
+      "type": "boolean",
+      "description": "Is active of the workspace"
+    }
+  },
+  "search_hints": {
+    "filterable": [],
+    "sortable": [],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  }
+}

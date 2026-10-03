@@ -91,7 +91,7 @@
   "meta": {
     "generated_at": "2026-04-16T00:00:00Z",
     "generator": "manual",
-    "human_site": true,
+    "human_site": "https://ara-standard.org",
     "note": "This repository is itself ARA-ready — we eat our own dog food."
   }
 }

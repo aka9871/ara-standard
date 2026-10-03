@@ -1,0 +1,45 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "categories",
+  "description": "Product category hierarchy",
+  "extends": "schema:DefinedTerm",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the category",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the category",
+      "semantic": "schema:name"
+    },
+    "parent_id": {
+      "type": "string",
+      "description": "Parent identifier of the category"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the category",
+      "semantic": "schema:description"
+    },
+    "image": {
+      "type": "string",
+      "description": "Image of the category"
+    },
+    "product_count": {
+      "type": "integer",
+      "description": "Product count of the category"
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "parent_id"
+    ],
+    "sortable": [],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  }
+}

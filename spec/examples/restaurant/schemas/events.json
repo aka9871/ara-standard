@@ -1,0 +1,69 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "events",
+  "description": "Special events and dining experiences",
+  "extends": "schema:Event",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the event",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the event",
+      "semantic": "schema:name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the event",
+      "semantic": "schema:description"
+    },
+    "event_type": {
+      "type": "string",
+      "description": "Event type of the event"
+    },
+    "date": {
+      "type": "string",
+      "description": "Date of the event",
+      "format": "date-time"
+    },
+    "price_per_person": {
+      "type": "number",
+      "description": "Price per person of the event"
+    },
+    "max_guests": {
+      "type": "integer",
+      "description": "Max guests of the event"
+    },
+    "current_reservations": {
+      "type": "integer",
+      "description": "Current reservations of the event"
+    },
+    "menu_preview": {
+      "type": "array",
+      "description": "Menu preview of the event",
+      "items": {
+        "type": "string"
+      }
+    },
+    "special_features": {
+      "type": "array",
+      "description": "Special features of the event",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "event_type",
+      "available_only"
+    ],
+    "sortable": [],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  }
+}

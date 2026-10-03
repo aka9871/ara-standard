@@ -1,0 +1,63 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "menu_versions",
+  "description": "Menu versions for different seasons and special occasions",
+  "extends": "schema:Menu",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the menu version",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the menu version",
+      "semantic": "schema:name"
+    },
+    "season": {
+      "type": "string",
+      "description": "Season of the menu version"
+    },
+    "valid_from": {
+      "type": "string",
+      "description": "Valid from of the menu version",
+      "format": "date-time"
+    },
+    "valid_until": {
+      "type": "string",
+      "description": "Valid until of the menu version",
+      "format": "date-time"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the menu version",
+      "semantic": "schema:description"
+    },
+    "price_per_person": {
+      "type": "number",
+      "description": "Price per person of the menu version"
+    },
+    "course_count": {
+      "type": "integer",
+      "description": "Course count of the menu version"
+    },
+    "menu_items": {
+      "type": "array",
+      "description": "Menu items of the menu version",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "season",
+      "active_only"
+    ],
+    "sortable": [],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  }
+}

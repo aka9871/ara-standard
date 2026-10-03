@@ -1,0 +1,65 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "editions",
+  "description": "Individual newsletter issues",
+  "extends": "schema:PublicationIssue",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the edition",
+      "semantic": "identifier"
+    },
+    "newsletter_id": {
+      "type": "string",
+      "description": "Newsletter identifier of the edition"
+    },
+    "issue_number": {
+      "type": "integer",
+      "description": "Issue number of the edition"
+    },
+    "subject_line": {
+      "type": "string",
+      "description": "Subject line of the edition"
+    },
+    "content": {
+      "type": "string",
+      "description": "Content of the edition",
+      "semantic": "schema:articleBody"
+    },
+    "featured_articles": {
+      "type": "array",
+      "description": "Featured articles of the edition",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sent_at": {
+      "type": "string",
+      "description": "Sent at of the edition",
+      "format": "date-time"
+    },
+    "open_rate": {
+      "type": "number",
+      "description": "Open rate of the edition"
+    },
+    "click_rate": {
+      "type": "number",
+      "description": "Click rate of the edition"
+    }
+  },
+  "search_hints": {
+    "filterable": [],
+    "sortable": [],
+    "fulltext": [
+      "content"
+    ]
+  },
+  "relationships": [
+    {
+      "name": "newsletter",
+      "target": "newsletters",
+      "type": "parent",
+      "description": "The newsletter referenced by newsletter_id"
+    }
+  ]
+}

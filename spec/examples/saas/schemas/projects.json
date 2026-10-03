@@ -1,0 +1,87 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "projects",
+  "description": "Projects within workspaces",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the project",
+      "semantic": "identifier"
+    },
+    "workspace_id": {
+      "type": "string",
+      "description": "Workspace identifier of the project"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the project",
+      "semantic": "schema:name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the project",
+      "semantic": "schema:description"
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of the project",
+      "semantic": "schema:status"
+    },
+    "owner_id": {
+      "type": "string",
+      "description": "Owner identifier of the project"
+    },
+    "members": {
+      "type": "array",
+      "description": "Members of the project",
+      "items": {
+        "type": "object"
+      }
+    },
+    "start_date": {
+      "type": "string",
+      "description": "Start date of the project",
+      "format": "date-time",
+      "semantic": "schema:startDate"
+    },
+    "end_date": {
+      "type": "string",
+      "description": "End date of the project",
+      "format": "date-time",
+      "semantic": "schema:endDate"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Created at of the project",
+      "format": "date-time",
+      "semantic": "schema:dateCreated"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Updated at of the project",
+      "format": "date-time",
+      "semantic": "schema:dateModified"
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "status"
+    ],
+    "sortable": [
+      "created_at",
+      "updated_at"
+    ],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  },
+  "relationships": [
+    {
+      "name": "workspace",
+      "target": "workspaces",
+      "type": "parent",
+      "description": "The workspace referenced by workspace_id"
+    }
+  ]
+}

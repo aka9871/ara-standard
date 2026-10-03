@@ -1,0 +1,99 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "tasks",
+  "description": "Individual tasks and work items",
+  "extends": "schema:Action",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the task",
+      "semantic": "identifier"
+    },
+    "project_id": {
+      "type": "string",
+      "description": "Project identifier of the task"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the task",
+      "semantic": "schema:headline"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the task",
+      "semantic": "schema:description"
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of the task",
+      "semantic": "schema:status"
+    },
+    "priority": {
+      "type": "string",
+      "description": "Priority of the task"
+    },
+    "assigned_to": {
+      "type": "string",
+      "description": "Assigned to of the task"
+    },
+    "created_by": {
+      "type": "string",
+      "description": "Created by of the task"
+    },
+    "due_date": {
+      "type": "string",
+      "description": "Due date of the task",
+      "format": "date-time"
+    },
+    "labels": {
+      "type": "array",
+      "description": "Labels of the task",
+      "items": {
+        "type": "string"
+      }
+    },
+    "comments_count": {
+      "type": "integer",
+      "description": "Comments count of the task"
+    },
+    "attachments": {
+      "type": "array",
+      "description": "Attachments of the task",
+      "items": {
+        "type": "object"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Created at of the task",
+      "format": "date-time",
+      "semantic": "schema:dateCreated"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Updated at of the task",
+      "format": "date-time",
+      "semantic": "schema:dateModified"
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "status",
+      "priority",
+      "assigned_to"
+    ],
+    "sortable": [],
+    "fulltext": [
+      "title",
+      "description"
+    ]
+  },
+  "relationships": [
+    {
+      "name": "project",
+      "target": "projects",
+      "type": "parent",
+      "description": "The project referenced by project_id"
+    }
+  ]
+}

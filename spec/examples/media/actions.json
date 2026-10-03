@@ -1,0 +1,519 @@
+{
+  "$ara_actions": "1.0",
+  "intents": {
+    "description": "Maps user intents to ByteWire actions",
+    "mappings": [
+      {
+        "intent": "find_article",
+        "description": "User is looking for coverage of a subject",
+        "examples": [
+          "Latest news about AI chips",
+          "What did ByteWire write about the new MacBook?"
+        ],
+        "action": "search_articles"
+      },
+      {
+        "intent": "whats_trending",
+        "description": "User wants the stories everyone is reading",
+        "examples": [
+          "What's trending in tech today?"
+        ],
+        "action": "get_trending"
+      },
+      {
+        "intent": "author_profile",
+        "description": "User wants to know about a journalist",
+        "examples": [
+          "Who covers cybersecurity at ByteWire?"
+        ],
+        "action": "list_authors"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "list_articles",
+      "name": "GET /articles",
+      "description": "List articles with filters and pagination",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "author_id": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array"
+          },
+          "search": {
+            "type": "string"
+          },
+          "sort": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "pages": {
+            "type": "integer"
+          }
+        }
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/articles",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "get_article",
+      "name": "GET /articles/{article_id}",
+      "description": "Get full article content by ID or slug",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "article_id"
+        ],
+        "properties": {
+          "article_id": {
+            "type": "string",
+            "description": "Article identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/articles.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/articles/{article_id}",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_article_comments",
+      "name": "GET /articles/{article_id}/comments",
+      "description": "Get article comments or post new comment (GET)",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "article_id"
+        ],
+        "properties": {
+          "article_id": {
+            "type": "string",
+            "description": "Article identifier"
+          },
+          "approved_only": {
+            "type": "boolean"
+          },
+          "sort": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/articles/{article_id}/comments",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "create_article_comment",
+      "name": "POST /articles/{article_id}/comments",
+      "description": "Get article comments or post new comment (POST)",
+      "type": "mutation",
+      "idempotent": false,
+      "auth_required": false,
+      "confirmation_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "article_id"
+        ],
+        "properties": {
+          "article_id": {
+            "type": "string",
+            "description": "Article identifier"
+          },
+          "approved_only": {
+            "type": "boolean"
+          },
+          "sort": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "POST",
+          "path": "/v1/articles/{article_id}/comments"
+        }
+      }
+    },
+    {
+      "id": "search_articles",
+      "name": "GET /articles/search",
+      "description": "Full-text search across article content",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "q": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "from_date": {
+            "type": "string"
+          },
+          "to_date": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/articles/search",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_categories",
+      "name": "GET /categories",
+      "description": "List all article categories",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {}
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/categories",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "get_category",
+      "name": "GET /categories/{category_id}",
+      "description": "Get category details with articles",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "category_id"
+        ],
+        "properties": {
+          "category_id": {
+            "type": "string",
+            "description": "Category identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/categories.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/categories/{category_id}",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_category_articles",
+      "name": "GET /categories/{category_id}/articles",
+      "description": "Get articles in specific category",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "category_id"
+        ],
+        "properties": {
+          "category_id": {
+            "type": "string",
+            "description": "Category identifier"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/categories/{category_id}/articles",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_authors",
+      "name": "GET /authors",
+      "description": "List all authors",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/authors",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "get_author",
+      "name": "GET /authors/{author_id}",
+      "description": "Get author profile and article list",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "author_id"
+        ],
+        "properties": {
+          "author_id": {
+            "type": "string",
+            "description": "Author identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/authors.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/authors/{author_id}",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "get_trending",
+      "name": "GET /trending",
+      "description": "Get trending topics and articles",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "limit": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/trending",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_newsletters",
+      "name": "GET /newsletters",
+      "description": "List available newsletters",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {}
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/newsletters",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_newsletter_editions",
+      "name": "GET /newsletters/{newsletter_id}/editions",
+      "description": "Get newsletter editions",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "newsletter_id"
+        ],
+        "properties": {
+          "newsletter_id": {
+            "type": "string",
+            "description": "Newsletter identifier"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/newsletters/{newsletter_id}/editions",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_topics",
+      "name": "GET /topics",
+      "description": "List special topic collections",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {}
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/topics",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "get_topic",
+      "name": "GET /topics/{topic_id}",
+      "description": "Get topic details with related articles",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "topic_id"
+        ],
+        "properties": {
+          "topic_id": {
+            "type": "string",
+            "description": "Topic identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/topics.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/topics/{topic_id}",
+          "params_mapping": "query_string"
+        }
+      }
+    }
+  ]
+}

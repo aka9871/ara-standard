@@ -1,0 +1,434 @@
+{
+  "$ara_actions": "1.0",
+  "intents": {
+    "description": "Maps user intents to UrbanStyle actions",
+    "mappings": [
+      {
+        "intent": "find_product",
+        "description": "User is looking for a fashion item",
+        "examples": [
+          "Show me summer dresses under $150",
+          "I need black leather boots"
+        ],
+        "action": "search_products"
+      },
+      {
+        "intent": "read_reviews",
+        "description": "User wants opinions on a product",
+        "examples": [
+          "What do customers say about this jacket?"
+        ],
+        "action": "get_product_reviews"
+      },
+      {
+        "intent": "browse_collection",
+        "description": "User wants the current seasonal collections",
+        "examples": [
+          "What's in the new fall collection?"
+        ],
+        "action": "get_current_collections"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "list_products",
+      "name": "GET /products",
+      "description": "List all products with filtering and pagination",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "min_price": {
+            "type": "number"
+          },
+          "max_price": {
+            "type": "number"
+          },
+          "search": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          },
+          "sort": {
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          }
+        }
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/products",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "get_product",
+      "name": "GET /products/{product_id}",
+      "description": "Retrieve detailed product information",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "product_id"
+        ],
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "description": "Product identifier"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "inventory": {
+            "type": "integer"
+          }
+        }
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/products/{product_id}",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_product_reviews",
+      "name": "GET /products/{product_id}/reviews",
+      "description": "Get product reviews or submit a new review (GET)",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "product_id"
+        ],
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "description": "Product identifier"
+          },
+          "rating": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/products/{product_id}/reviews",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "create_product_review",
+      "name": "POST /products/{product_id}/reviews",
+      "description": "Get product reviews or submit a new review (POST)",
+      "type": "mutation",
+      "idempotent": false,
+      "auth_required": false,
+      "confirmation_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "product_id"
+        ],
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "description": "Product identifier"
+          },
+          "rating": {
+            "type": "integer"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "POST",
+          "path": "/v1/products/{product_id}/reviews"
+        }
+      }
+    },
+    {
+      "id": "list_collections",
+      "name": "GET /collections",
+      "description": "List all active collections",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "season": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/collections",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "get_collection",
+      "name": "GET /collections/{collection_id}",
+      "description": "Get collection details with products",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "collection_id"
+        ],
+        "properties": {
+          "collection_id": {
+            "type": "string",
+            "description": "Collection identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/collections.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/collections/{collection_id}",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_categories",
+      "name": "GET /categories",
+      "description": "Browse product categories",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "parent_id": {
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/categories",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "search_products",
+      "name": "Search products",
+      "description": "Search products by keyword, category, or price range",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search query string"
+          },
+          "category": {
+            "type": "string",
+            "description": "Filter by product category"
+          },
+          "min_price": {
+            "type": "number"
+          },
+          "max_price": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "query"
+        ]
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "mcp_tool": "search_products"
+      }
+    },
+    {
+      "id": "get_product_reviews",
+      "name": "Get product reviews",
+      "description": "Fetch customer reviews for a specific product",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "product_id": {
+            "type": "string",
+            "description": "Product identifier"
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Maximum number of reviews to return"
+          }
+        },
+        "required": [
+          "product_id"
+        ]
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "mcp_tool": "get_product_reviews"
+      }
+    },
+    {
+      "id": "get_collection_products",
+      "name": "Get collection products",
+      "description": "Get all products in a specific collection",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "collection_id": {
+            "type": "string"
+          },
+          "sort_by": {
+            "type": "string",
+            "enum": [
+              "price_asc",
+              "price_desc",
+              "newest",
+              "rating"
+            ]
+          }
+        },
+        "required": [
+          "collection_id"
+        ]
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "mcp_tool": "get_collection_products"
+      }
+    },
+    {
+      "id": "get_current_collections",
+      "name": "Get current collections",
+      "description": "Get all currently active seasonal collections",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "season": {
+            "type": "string",
+            "enum": [
+              "spring",
+              "summer",
+              "fall",
+              "winter"
+            ]
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "mcp_tool": "get_current_collections"
+      }
+    }
+  ]
+}

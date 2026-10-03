@@ -1,0 +1,52 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "staff",
+  "description": "Kitchen and service staff information",
+  "extends": "schema:Person",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the staff",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the staff",
+      "semantic": "schema:name"
+    },
+    "role": {
+      "type": "string",
+      "description": "Role of the staff"
+    },
+    "specialization": {
+      "type": "string",
+      "description": "Specialization of the staff"
+    },
+    "experience_years": {
+      "type": "integer",
+      "description": "Experience years of the staff"
+    },
+    "bio": {
+      "type": "string",
+      "description": "Bio of the staff"
+    },
+    "certifications": {
+      "type": "array",
+      "description": "Certifications of the staff",
+      "items": {
+        "type": "string"
+      }
+    },
+    "avatar": {
+      "type": "string",
+      "description": "Avatar of the staff"
+    }
+  },
+  "search_hints": {
+    "filterable": [],
+    "sortable": [],
+    "fulltext": [
+      "name"
+    ]
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "wine_list",
+  "description": "Wine collection and pairings",
+  "extends": "schema:Product",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the wine list",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the wine list",
+      "semantic": "schema:name"
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of the wine list"
+    },
+    "region": {
+      "type": "string",
+      "description": "Region of the wine list"
+    },
+    "vintage": {
+      "type": "integer",
+      "description": "Vintage of the wine list"
+    },
+    "producer": {
+      "type": "string",
+      "description": "Producer of the wine list"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price of the wine list",
+      "semantic": "schema:price"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency of the wine list",
+      "semantic": "schema:priceCurrency"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the wine list",
+      "semantic": "schema:description"
+    },
+    "pairing_suggestions": {
+      "type": "array",
+      "description": "Pairing suggestions of the wine list",
+      "items": {
+        "type": "string"
+      }
+    },
+    "in_stock": {
+      "type": "boolean",
+      "description": "In stock of the wine list"
+    },
+    "quantity": {
+      "type": "integer",
+      "description": "Quantity of the wine list"
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "type",
+      "region",
+      "price_max",
+      "in_stock_only"
+    ],
+    "sortable": [],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  }
+}

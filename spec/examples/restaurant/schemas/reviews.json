@@ -1,0 +1,73 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "reviews",
+  "description": "Customer reviews and ratings",
+  "extends": "schema:Review",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the review",
+      "semantic": "identifier"
+    },
+    "reviewer_name": {
+      "type": "string",
+      "description": "Reviewer name of the review"
+    },
+    "reviewer_email": {
+      "type": "string",
+      "description": "Reviewer email of the review"
+    },
+    "rating": {
+      "type": "integer",
+      "description": "Rating of the review",
+      "semantic": "schema:ratingValue"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the review",
+      "semantic": "schema:headline"
+    },
+    "content": {
+      "type": "string",
+      "description": "Content of the review",
+      "semantic": "schema:articleBody"
+    },
+    "visit_date": {
+      "type": "string",
+      "description": "Visit date of the review",
+      "format": "date-time"
+    },
+    "verified_reservation": {
+      "type": "boolean",
+      "description": "Verified reservation of the review"
+    },
+    "helpful_count": {
+      "type": "integer",
+      "description": "Helpful count of the review"
+    },
+    "images": {
+      "type": "array",
+      "description": "Images of the review",
+      "items": {
+        "type": "string"
+      },
+      "semantic": "schema:image"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Created at of the review",
+      "format": "date-time",
+      "semantic": "schema:dateCreated"
+    }
+  },
+  "search_hints": {
+    "filterable": [],
+    "sortable": [
+      "created_at"
+    ],
+    "fulltext": [
+      "title",
+      "content"
+    ]
+  }
+}

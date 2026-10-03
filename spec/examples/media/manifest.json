@@ -1,302 +1,149 @@
 {
   "$ara": "1.0",
   "identity": {
-    "id": "bytewire-media",
     "name": "ByteWire",
+    "type": "news_media",
     "description": "Leading technology news and innovation reporting platform covering software, hardware, startups, and digital transformation",
-    "version": "1.8.2",
-    "organization": "ByteWire Media Group",
-    "website": "https://www.bytewire.tech",
-    "logo": "https://www.bytewire.tech/assets/logo.svg",
+    "sector": "Technology journalism",
+    "locale": [
+      "en-US"
+    ],
+    "geo": {
+      "address": "789 Innovation Drive, Silicon Valley, CA 95110",
+      "country_code": "US"
+    },
     "contact": {
       "email": "editorial@bytewire.tech",
-      "phone": "+1-415-BYTEWIRE",
-      "address": "789 Innovation Drive, Silicon Valley, CA 95110"
+      "phone": "+1-415-BYTEWIRE"
+    },
+    "branding": {
+      "logo": "https://www.bytewire.tech/assets/logo.svg"
     }
   },
   "content_map": {
-    "articles": {
-      "type": "collection",
-      "description": "Technology news articles and feature stories",
-      "structure": {
-        "id": "string",
-        "title": "string",
-        "slug": "string",
-        "content": "string",
-        "excerpt": "string",
-        "author_id": "string",
-        "category_id": "string",
-        "tags": ["string"],
-        "featured_image": "string",
-        "image_alt_text": "string",
-        "view_count": "integer",
-        "published_at": "datetime",
-        "updated_at": "datetime",
-        "status": "enum",
-        "reading_time_minutes": "integer"
+    "summary": "Technology news: articles, authors, categories, topics, trending stories and newsletters",
+    "resources": [
+      {
+        "id": "articles",
+        "type": "content",
+        "label": "Articles",
+        "description": "Technology news articles and feature stories",
+        "schema_ref": "schemas/articles.json",
+        "access": "public",
+        "formats": [
+          "json"
+        ]
+      },
+      {
+        "id": "categories",
+        "type": "directory",
+        "label": "Categories",
+        "description": "Article categories and taxonomy",
+        "schema_ref": "schemas/categories.json",
+        "access": "public",
+        "formats": [
+          "json"
+        ]
+      },
+      {
+        "id": "authors",
+        "type": "directory",
+        "label": "Authors",
+        "description": "Staff writers and contributing journalists",
+        "schema_ref": "schemas/authors.json",
+        "access": "public",
+        "formats": [
+          "json"
+        ]
+      },
+      {
+        "id": "comments",
+        "type": "content",
+        "label": "Comments",
+        "description": "Reader comments and discussions",
+        "schema_ref": "schemas/comments.json",
+        "access": "public",
+        "formats": [
+          "json"
+        ]
+      },
+      {
+        "id": "newsletters",
+        "type": "content",
+        "label": "Newsletters",
+        "description": "Email newsletter subscriptions and editions",
+        "schema_ref": "schemas/newsletters.json",
+        "access": "public",
+        "formats": [
+          "json"
+        ]
+      },
+      {
+        "id": "editions",
+        "type": "content",
+        "label": "Editions",
+        "description": "Individual newsletter issues",
+        "schema_ref": "schemas/editions.json",
+        "access": "public",
+        "formats": [
+          "json"
+        ]
+      },
+      {
+        "id": "trending",
+        "type": "content",
+        "label": "Trending",
+        "description": "Trending topics and popular articles",
+        "schema_ref": "schemas/trending.json",
+        "access": "public",
+        "formats": [
+          "json"
+        ]
+      },
+      {
+        "id": "topics",
+        "type": "directory",
+        "label": "Topics",
+        "description": "Special topic collections and deep dives",
+        "schema_ref": "schemas/topics.json",
+        "access": "public",
+        "formats": [
+          "json"
+        ]
       }
-    },
-    "categories": {
-      "type": "collection",
-      "description": "Article categories and taxonomy",
-      "structure": {
-        "id": "string",
-        "name": "string",
-        "slug": "string",
-        "description": "string",
-        "icon": "string",
-        "article_count": "integer",
-        "parent_category_id": "string"
-      }
-    },
-    "authors": {
-      "type": "collection",
-      "description": "Staff writers and contributing journalists",
-      "structure": {
-        "id": "string",
-        "name": "string",
-        "bio": "string",
-        "email": "string",
-        "avatar": "string",
-        "specializations": ["string"],
-        "article_count": "integer",
-        "followers_count": "integer",
-        "verified": "boolean",
-        "joined_at": "datetime"
-      }
-    },
-    "comments": {
-      "type": "collection",
-      "description": "Reader comments and discussions",
-      "structure": {
-        "id": "string",
-        "article_id": "string",
-        "author_name": "string",
-        "author_email": "string",
-        "content": "string",
-        "approved": "boolean",
-        "likes": "integer",
-        "replies": ["object"],
-        "created_at": "datetime",
-        "updated_at": "datetime"
-      }
-    },
-    "newsletters": {
-      "type": "collection",
-      "description": "Email newsletter subscriptions and editions",
-      "structure": {
-        "id": "string",
-        "name": "string",
-        "description": "string",
-        "frequency": "enum",
-        "subscribers_count": "integer",
-        "latest_edition_id": "string",
-        "created_at": "datetime"
-      }
-    },
-    "editions": {
-      "type": "collection",
-      "description": "Individual newsletter issues",
-      "structure": {
-        "id": "string",
-        "newsletter_id": "string",
-        "issue_number": "integer",
-        "subject_line": "string",
-        "content": "string",
-        "featured_articles": ["string"],
-        "sent_at": "datetime",
-        "open_rate": "number",
-        "click_rate": "number"
-      }
-    },
-    "trending": {
-      "type": "collection",
-      "description": "Trending topics and popular articles",
-      "structure": {
-        "id": "string",
-        "topic": "string",
-        "article_ids": ["string"],
-        "trend_score": "number",
-        "category": "string",
-        "trending_since": "datetime"
-      }
-    },
-    "topics": {
-      "type": "collection",
-      "description": "Special topic collections and deep dives",
-      "structure": {
-        "id": "string",
-        "name": "string",
-        "description": "string",
-        "article_ids": ["string"],
-        "created_at": "datetime",
-        "updated_at": "datetime"
-      }
-    }
+    ]
   },
   "capabilities": {
-    "rest": {
-      "protocol": "REST",
-      "version": "1.0",
-      "base_url": "https://api.bytewire.tech/v1",
-      "authentication": "API Key (optional for public content)",
-      "endpoints": [
-        {
-          "path": "/articles",
-          "methods": ["GET"],
-          "description": "List articles with filters and pagination",
-          "parameters": {
-            "category": "string",
-            "author_id": "string",
-            "tags": "array",
-            "search": "string",
-            "sort": "enum",
-            "page": "integer",
-            "limit": "integer",
-            "status": "enum"
-          },
-          "response": {
-            "items": "array",
-            "total": "integer",
-            "page": "integer",
-            "limit": "integer",
-            "pages": "integer"
-          }
-        },
-        {
-          "path": "/articles/{article_id}",
-          "methods": ["GET"],
-          "description": "Get full article content by ID or slug"
-        },
-        {
-          "path": "/articles/{article_id}/comments",
-          "methods": ["GET", "POST"],
-          "description": "Get article comments or post new comment",
-          "parameters": {
-            "approved_only": "boolean",
-            "sort": "enum",
-            "page": "integer"
-          }
-        },
-        {
-          "path": "/articles/search",
-          "methods": ["GET"],
-          "description": "Full-text search across article content",
-          "parameters": {
-            "q": "string",
-            "category": "string",
-            "from_date": "string",
-            "to_date": "string",
-            "page": "integer"
-          }
-        },
-        {
-          "path": "/categories",
-          "methods": ["GET"],
-          "description": "List all article categories"
-        },
-        {
-          "path": "/categories/{category_id}",
-          "methods": ["GET"],
-          "description": "Get category details with articles"
-        },
-        {
-          "path": "/categories/{category_id}/articles",
-          "methods": ["GET"],
-          "description": "Get articles in specific category"
-        },
-        {
-          "path": "/authors",
-          "methods": ["GET"],
-          "description": "List all authors",
-          "parameters": {
-            "page": "integer",
-            "limit": "integer"
-          }
-        },
-        {
-          "path": "/authors/{author_id}",
-          "methods": ["GET"],
-          "description": "Get author profile and article list"
-        },
-        {
-          "path": "/trending",
-          "methods": ["GET"],
-          "description": "Get trending topics and articles",
-          "parameters": {
-            "category": "string",
-            "limit": "integer"
-          }
-        },
-        {
-          "path": "/newsletters",
-          "methods": ["GET"],
-          "description": "List available newsletters"
-        },
-        {
-          "path": "/newsletters/{newsletter_id}/editions",
-          "methods": ["GET"],
-          "description": "Get newsletter editions"
-        },
-        {
-          "path": "/topics",
-          "methods": ["GET"],
-          "description": "List special topic collections"
-        },
-        {
-          "path": "/topics/{topic_id}",
-          "methods": ["GET"],
-          "description": "Get topic details with related articles"
-        }
-      ]
-    }
-  },
-  "policies": {
-    "access": {
-      "default": "public",
-      "requires_authentication": [],
-      "rate_limiting": {
-        "requests_per_minute": 30,
-        "requests_per_hour": 500,
-        "concurrent_requests": 3
+    "protocols": {
+      "rest_api": {
+        "base_url": "https://api.bytewire.tech/v1"
       }
     },
+    "actions_ref": "actions.json"
+  },
+  "policies": {
+    "agent_access": "open",
+    "rate_limit": {
+      "requests_per_minute": 30,
+      "burst": 3
+    },
+    "authentication": {
+      "required_for": [],
+      "methods": [
+        "api_key"
+      ]
+    },
     "data_usage": {
-      "pii_handling": "minimal_collection",
-      "retention_period_days": 365,
-      "gdpr_compliant": true,
-      "ccpa_compliant": true
-    },
-    "operations": {
-      "allowed_operations": ["read", "list", "search"],
-      "restricted_operations": ["delete", "modify", "export"],
-      "requires_approval": []
-    },
-    "cache": {
-      "enabled": true,
-      "ttl_seconds": 600,
-      "cache_headers": true
-    },
-    "copyright": {
-      "content_licensed": true,
-      "license_type": "Creative Commons",
-      "attribution_required": true,
-      "commercial_use_restricted": false
+      "caching_allowed": true,
+      "cache_ttl": 600,
+      "redistribution": false,
+      "attribution_required": true
     }
   },
   "meta": {
-    "created_at": "2022-03-15T08:00:00Z",
-    "updated_at": "2024-12-12T12:00:00Z",
-    "specification_version": "1.0",
-    "tags": ["media", "news", "technology", "journalism", "content"],
-    "dependencies": [],
-    "related_services": ["analytics", "email-delivery", "content-cdn"],
-    "support_url": "https://bytewire.tech/api-docs",
-    "status": "active",
-    "content_count": {
-      "articles": 12500,
-      "authors": 85,
-      "categories": 18
-    }
+    "generated_at": "2024-12-12T12:00:00Z",
+    "generator": "Hand-written example",
+    "human_site": "https://www.bytewire.tech",
+    "support": "editorial@bytewire.tech"
   }
 }

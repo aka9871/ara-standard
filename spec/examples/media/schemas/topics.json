@@ -1,0 +1,50 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "topics",
+  "description": "Special topic collections and deep dives",
+  "extends": "schema:DefinedTerm",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the topic",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the topic",
+      "semantic": "schema:name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the topic",
+      "semantic": "schema:description"
+    },
+    "article_ids": {
+      "type": "array",
+      "description": "Article ids of the topic",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Created at of the topic",
+      "format": "date-time",
+      "semantic": "schema:dateCreated"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Updated at of the topic",
+      "format": "date-time",
+      "semantic": "schema:dateModified"
+    }
+  },
+  "search_hints": {
+    "filterable": [],
+    "sortable": [],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  }
+}

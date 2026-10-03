@@ -1,0 +1,35 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "tables",
+  "description": "Restaurant tables and seating information",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the table",
+      "semantic": "identifier"
+    },
+    "number": {
+      "type": "integer",
+      "description": "Number of the table"
+    },
+    "capacity": {
+      "type": "integer",
+      "description": "Capacity of the table"
+    },
+    "location": {
+      "type": "string",
+      "description": "Location of the table"
+    },
+    "features": {
+      "type": "array",
+      "description": "Features of the table",
+      "items": {
+        "type": "string"
+      }
+    },
+    "is_available": {
+      "type": "boolean",
+      "description": "Is available of the table"
+    }
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "reservations",
+  "description": "Table reservations and bookings",
+  "extends": "schema:FoodEstablishmentReservation",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the reservation",
+      "semantic": "identifier"
+    },
+    "reservation_code": {
+      "type": "string",
+      "description": "Reservation code of the reservation"
+    },
+    "guest_name": {
+      "type": "string",
+      "description": "Guest name of the reservation"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email of the reservation",
+      "semantic": "schema:email"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Phone of the reservation",
+      "semantic": "schema:telephone"
+    },
+    "party_size": {
+      "type": "integer",
+      "description": "Party size of the reservation"
+    },
+    "reservation_date": {
+      "type": "string",
+      "description": "Reservation date of the reservation",
+      "format": "date-time"
+    },
+    "reservation_time": {
+      "type": "string",
+      "description": "Reservation time of the reservation"
+    },
+    "duration_minutes": {
+      "type": "integer",
+      "description": "Duration minutes of the reservation"
+    },
+    "special_requests": {
+      "type": "string",
+      "description": "Special requests of the reservation"
+    },
+    "table_id": {
+      "type": "string",
+      "description": "Table identifier of the reservation"
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of the reservation",
+      "semantic": "schema:status"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Created at of the reservation",
+      "format": "date-time",
+      "semantic": "schema:dateCreated"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Updated at of the reservation",
+      "format": "date-time",
+      "semantic": "schema:dateModified"
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "email",
+      "reservation_code"
+    ],
+    "sortable": [],
+    "fulltext": []
+  },
+  "relationships": [
+    {
+      "name": "table",
+      "target": "tables",
+      "type": "parent",
+      "description": "The table referenced by table_id"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "features",
+  "description": "Available features across plan tiers",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the feature",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the feature",
+      "semantic": "schema:name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the feature",
+      "semantic": "schema:description"
+    },
+    "category": {
+      "type": "string",
+      "description": "Category of the feature",
+      "semantic": "schema:category"
+    },
+    "available_in_plans": {
+      "type": "array",
+      "description": "Available in plans of the feature",
+      "items": {
+        "type": "string"
+      }
+    },
+    "icon": {
+      "type": "string",
+      "description": "Icon of the feature"
+    }
+  },
+  "search_hints": {
+    "filterable": [],
+    "sortable": [],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  }
+}
