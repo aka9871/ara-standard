@@ -1,0 +1,721 @@
+{
+  "$ara_actions": "1.0",
+  "intents": {
+    "description": "Maps user intents to FlowBoard actions",
+    "mappings": [
+      {
+        "intent": "compare_plans",
+        "description": "User wants pricing or plan limits",
+        "examples": [
+          "How much is the Business plan?",
+          "Which plan includes SSO?"
+        ],
+        "action": "list_plans"
+      },
+      {
+        "intent": "create_task",
+        "description": "User wants to add a task to a project",
+        "examples": [
+          "Add a task 'Prepare Q3 review' to the Website project"
+        ],
+        "action": "create_project_task"
+      },
+      {
+        "intent": "find_docs",
+        "description": "User needs help using the product",
+        "examples": [
+          "How do I set up a Kanban board?"
+        ],
+        "action": "list_docs"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "list_workspaces",
+      "name": "GET /workspaces",
+      "description": "List user workspaces or create a new workspace (GET)",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": true,
+      "input": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v2/workspaces",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "create_workspace",
+      "name": "POST /workspaces",
+      "description": "List user workspaces or create a new workspace (POST)",
+      "type": "mutation",
+      "idempotent": false,
+      "auth_required": true,
+      "confirmation_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "POST",
+          "path": "/v2/workspaces"
+        }
+      }
+    },
+    {
+      "id": "get_workspace",
+      "name": "GET /workspaces/{workspace_id}",
+      "description": "Get or update workspace details (GET)",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": true,
+      "input": {
+        "type": "object",
+        "required": [
+          "workspace_id"
+        ],
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "description": "Workspace identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/workspaces.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v2/workspaces/{workspace_id}",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "update_workspace",
+      "name": "PUT /workspaces/{workspace_id}",
+      "description": "Get or update workspace details (PUT)",
+      "type": "mutation",
+      "idempotent": true,
+      "auth_required": true,
+      "confirmation_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "workspace_id"
+        ],
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "description": "Workspace identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/workspaces.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "PUT",
+          "path": "/v2/workspaces/{workspace_id}"
+        }
+      }
+    },
+    {
+      "id": "list_workspace_projects",
+      "name": "GET /workspaces/{workspace_id}/projects",
+      "description": "List projects in workspace or create new project (GET)",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": true,
+      "input": {
+        "type": "object",
+        "required": [
+          "workspace_id"
+        ],
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "description": "Workspace identifier"
+          },
+          "status": {
+            "type": "string"
+          },
+          "sort": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v2/workspaces/{workspace_id}/projects",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "create_workspace_project",
+      "name": "POST /workspaces/{workspace_id}/projects",
+      "description": "List projects in workspace or create new project (POST)",
+      "type": "mutation",
+      "idempotent": false,
+      "auth_required": true,
+      "confirmation_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "workspace_id"
+        ],
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "description": "Workspace identifier"
+          },
+          "status": {
+            "type": "string"
+          },
+          "sort": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "POST",
+          "path": "/v2/workspaces/{workspace_id}/projects"
+        }
+      }
+    },
+    {
+      "id": "get_project",
+      "name": "GET /projects/{project_id}",
+      "description": "Project operations (GET)",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": true,
+      "input": {
+        "type": "object",
+        "required": [
+          "project_id"
+        ],
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "description": "Project identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/projects.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v2/projects/{project_id}",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "update_project",
+      "name": "PUT /projects/{project_id}",
+      "description": "Project operations (PUT)",
+      "type": "mutation",
+      "idempotent": true,
+      "auth_required": true,
+      "confirmation_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "project_id"
+        ],
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "description": "Project identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/projects.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "PUT",
+          "path": "/v2/projects/{project_id}"
+        }
+      }
+    },
+    {
+      "id": "delete_project",
+      "name": "DELETE /projects/{project_id}",
+      "description": "Project operations (DELETE)",
+      "type": "mutation",
+      "idempotent": true,
+      "auth_required": true,
+      "confirmation_required": true,
+      "input": {
+        "type": "object",
+        "required": [
+          "project_id"
+        ],
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "description": "Project identifier"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "DELETE",
+          "path": "/v2/projects/{project_id}"
+        }
+      }
+    },
+    {
+      "id": "list_project_tasks",
+      "name": "GET /projects/{project_id}/tasks",
+      "description": "List or create project tasks (GET)",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": true,
+      "input": {
+        "type": "object",
+        "required": [
+          "project_id"
+        ],
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "description": "Project identifier"
+          },
+          "status": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string"
+          },
+          "assigned_to": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v2/projects/{project_id}/tasks",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "create_project_task",
+      "name": "POST /projects/{project_id}/tasks",
+      "description": "List or create project tasks (POST)",
+      "type": "mutation",
+      "idempotent": false,
+      "auth_required": true,
+      "confirmation_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "project_id"
+        ],
+        "properties": {
+          "project_id": {
+            "type": "string",
+            "description": "Project identifier"
+          },
+          "status": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string"
+          },
+          "assigned_to": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "POST",
+          "path": "/v2/projects/{project_id}/tasks"
+        }
+      }
+    },
+    {
+      "id": "get_task",
+      "name": "GET /tasks/{task_id}",
+      "description": "Task operations and management (GET)",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": true,
+      "input": {
+        "type": "object",
+        "required": [
+          "task_id"
+        ],
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "description": "Task identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/tasks.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v2/tasks/{task_id}",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "update_task",
+      "name": "PUT /tasks/{task_id}",
+      "description": "Task operations and management (PUT)",
+      "type": "mutation",
+      "idempotent": true,
+      "auth_required": true,
+      "confirmation_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "task_id"
+        ],
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "description": "Task identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/tasks.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "PUT",
+          "path": "/v2/tasks/{task_id}"
+        }
+      }
+    },
+    {
+      "id": "update_task_partial",
+      "name": "PATCH /tasks/{task_id}",
+      "description": "Task operations and management (PATCH)",
+      "type": "mutation",
+      "idempotent": false,
+      "auth_required": true,
+      "confirmation_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "task_id"
+        ],
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "description": "Task identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/tasks.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "PATCH",
+          "path": "/v2/tasks/{task_id}"
+        }
+      }
+    },
+    {
+      "id": "delete_task",
+      "name": "DELETE /tasks/{task_id}",
+      "description": "Task operations and management (DELETE)",
+      "type": "mutation",
+      "idempotent": true,
+      "auth_required": true,
+      "confirmation_required": true,
+      "input": {
+        "type": "object",
+        "required": [
+          "task_id"
+        ],
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "description": "Task identifier"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "DELETE",
+          "path": "/v2/tasks/{task_id}"
+        }
+      }
+    },
+    {
+      "id": "list_task_comments",
+      "name": "GET /tasks/{task_id}/comments",
+      "description": "Get or post task comments (GET)",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": true,
+      "input": {
+        "type": "object",
+        "required": [
+          "task_id"
+        ],
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "description": "Task identifier"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v2/tasks/{task_id}/comments",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "create_task_comment",
+      "name": "POST /tasks/{task_id}/comments",
+      "description": "Get or post task comments (POST)",
+      "type": "mutation",
+      "idempotent": false,
+      "auth_required": true,
+      "confirmation_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "task_id"
+        ],
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "description": "Task identifier"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "POST",
+          "path": "/v2/tasks/{task_id}/comments"
+        }
+      }
+    },
+    {
+      "id": "list_plans",
+      "name": "GET /plans",
+      "description": "List available subscription plans",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": true,
+      "input": {
+        "type": "object",
+        "properties": {}
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v2/plans",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_features",
+      "name": "GET /features",
+      "description": "Get all available features with plan details",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": true,
+      "input": {
+        "type": "object",
+        "properties": {}
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v2/features",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_docs",
+      "name": "GET /docs",
+      "description": "Browse documentation",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": true,
+      "input": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string"
+          },
+          "search": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v2/docs",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_workspace_teams",
+      "name": "GET /workspaces/{workspace_id}/teams",
+      "description": "Manage team members (GET)",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": true,
+      "input": {
+        "type": "object",
+        "required": [
+          "workspace_id"
+        ],
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "description": "Workspace identifier"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v2/workspaces/{workspace_id}/teams",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "create_workspace_team",
+      "name": "POST /workspaces/{workspace_id}/teams",
+      "description": "Manage team members (POST)",
+      "type": "mutation",
+      "idempotent": false,
+      "auth_required": true,
+      "confirmation_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "workspace_id"
+        ],
+        "properties": {
+          "workspace_id": {
+            "type": "string",
+            "description": "Workspace identifier"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "POST",
+          "path": "/v2/workspaces/{workspace_id}/teams"
+        }
+      }
+    }
+  ]
+}

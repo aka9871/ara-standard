@@ -1,0 +1,44 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "trending",
+  "description": "Trending topics and popular articles",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the trending",
+      "semantic": "identifier"
+    },
+    "topic": {
+      "type": "string",
+      "description": "Topic of the trending"
+    },
+    "article_ids": {
+      "type": "array",
+      "description": "Article ids of the trending",
+      "items": {
+        "type": "string"
+      }
+    },
+    "trend_score": {
+      "type": "number",
+      "description": "Trend score of the trending"
+    },
+    "category": {
+      "type": "string",
+      "description": "Category of the trending",
+      "semantic": "schema:category"
+    },
+    "trending_since": {
+      "type": "string",
+      "description": "Trending since of the trending",
+      "format": "date-time"
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "category"
+    ],
+    "sortable": [],
+    "fulltext": []
+  }
+}

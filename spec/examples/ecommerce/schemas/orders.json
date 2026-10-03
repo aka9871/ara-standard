@@ -1,0 +1,54 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "orders",
+  "description": "Customer purchase orders",
+  "extends": "schema:Order",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the order",
+      "semantic": "identifier"
+    },
+    "customer_id": {
+      "type": "string",
+      "description": "Customer identifier of the order"
+    },
+    "items": {
+      "type": "array",
+      "description": "Items of the order",
+      "items": {
+        "type": "object"
+      }
+    },
+    "total_amount": {
+      "type": "number",
+      "description": "Total amount of the order"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency of the order",
+      "semantic": "schema:priceCurrency"
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of the order",
+      "semantic": "schema:status"
+    },
+    "shipping_address": {
+      "type": "object",
+      "description": "Shipping address of the order"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Created at of the order",
+      "format": "date-time",
+      "semantic": "schema:dateCreated"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Updated at of the order",
+      "format": "date-time",
+      "semantic": "schema:dateModified"
+    }
+  }
+}

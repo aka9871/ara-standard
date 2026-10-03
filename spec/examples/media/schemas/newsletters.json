@@ -1,0 +1,49 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "newsletters",
+  "description": "Email newsletter subscriptions and editions",
+  "extends": "schema:Periodical",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the newsletter",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the newsletter",
+      "semantic": "schema:name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the newsletter",
+      "semantic": "schema:description"
+    },
+    "frequency": {
+      "type": "string",
+      "description": "Frequency of the newsletter"
+    },
+    "subscribers_count": {
+      "type": "integer",
+      "description": "Subscribers count of the newsletter"
+    },
+    "latest_edition_id": {
+      "type": "string",
+      "description": "Latest edition identifier of the newsletter"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Created at of the newsletter",
+      "format": "date-time",
+      "semantic": "schema:dateCreated"
+    }
+  },
+  "search_hints": {
+    "filterable": [],
+    "sortable": [],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  }
+}

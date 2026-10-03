@@ -1,0 +1,55 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "teams",
+  "description": "Team members within workspace",
+  "extends": "schema:Organization",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the team",
+      "semantic": "identifier"
+    },
+    "workspace_id": {
+      "type": "string",
+      "description": "Workspace identifier of the team"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User identifier of the team"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the team",
+      "semantic": "schema:name"
+    },
+    "email": {
+      "type": "string",
+      "description": "Email of the team",
+      "semantic": "schema:email"
+    },
+    "role": {
+      "type": "string",
+      "description": "Role of the team"
+    },
+    "joined_at": {
+      "type": "string",
+      "description": "Joined at of the team",
+      "format": "date-time"
+    }
+  },
+  "search_hints": {
+    "filterable": [],
+    "sortable": [],
+    "fulltext": [
+      "name"
+    ]
+  },
+  "relationships": [
+    {
+      "name": "workspace",
+      "target": "workspaces",
+      "type": "parent",
+      "description": "The workspace referenced by workspace_id"
+    }
+  ]
+}

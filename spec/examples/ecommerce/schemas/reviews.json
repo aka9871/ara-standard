@@ -1,0 +1,70 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "reviews",
+  "description": "Customer product reviews and ratings",
+  "extends": "schema:Review",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the review",
+      "semantic": "identifier"
+    },
+    "product_id": {
+      "type": "string",
+      "description": "Product identifier of the review"
+    },
+    "customer_name": {
+      "type": "string",
+      "description": "Customer name of the review"
+    },
+    "rating": {
+      "type": "integer",
+      "description": "Rating of the review",
+      "semantic": "schema:ratingValue"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the review",
+      "semantic": "schema:headline"
+    },
+    "content": {
+      "type": "string",
+      "description": "Content of the review",
+      "semantic": "schema:articleBody"
+    },
+    "verified_purchase": {
+      "type": "boolean",
+      "description": "Verified purchase of the review"
+    },
+    "helpful_count": {
+      "type": "integer",
+      "description": "Helpful count of the review"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Created at of the review",
+      "format": "date-time",
+      "semantic": "schema:dateCreated"
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "rating",
+      "title",
+      "content"
+    ],
+    "sortable": [],
+    "fulltext": [
+      "title",
+      "content"
+    ]
+  },
+  "relationships": [
+    {
+      "name": "product",
+      "target": "products",
+      "type": "parent",
+      "description": "The product referenced by product_id"
+    }
+  ]
+}

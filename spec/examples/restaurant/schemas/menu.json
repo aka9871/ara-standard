@@ -1,0 +1,95 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "menu",
+  "description": "Restaurant menu with dishes, descriptions, and pricing",
+  "extends": "schema:MenuItem",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the menu",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the menu",
+      "semantic": "schema:name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the menu",
+      "semantic": "schema:description"
+    },
+    "course_type": {
+      "type": "string",
+      "description": "Course type of the menu"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price of the menu",
+      "semantic": "schema:price"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency of the menu",
+      "semantic": "schema:priceCurrency"
+    },
+    "ingredients": {
+      "type": "array",
+      "description": "Ingredients of the menu",
+      "items": {
+        "type": "string"
+      }
+    },
+    "allergens": {
+      "type": "array",
+      "description": "Allergens of the menu",
+      "items": {
+        "type": "string"
+      }
+    },
+    "calories": {
+      "type": "integer",
+      "description": "Calories of the menu"
+    },
+    "vegetarian": {
+      "type": "boolean",
+      "description": "Vegetarian of the menu"
+    },
+    "vegan": {
+      "type": "boolean",
+      "description": "Vegan of the menu"
+    },
+    "gluten_free": {
+      "type": "boolean",
+      "description": "Gluten free of the menu"
+    },
+    "prepared_by": {
+      "type": "string",
+      "description": "Prepared by of the menu"
+    },
+    "image": {
+      "type": "string",
+      "description": "Image of the menu"
+    },
+    "seasonal": {
+      "type": "boolean",
+      "description": "Seasonal of the menu"
+    },
+    "available": {
+      "type": "boolean",
+      "description": "Available of the menu"
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "course_type",
+      "dietary_filter",
+      "seasonal_only"
+    ],
+    "sortable": [],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  }
+}

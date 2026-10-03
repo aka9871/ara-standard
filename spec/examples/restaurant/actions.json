@@ -1,0 +1,615 @@
+{
+  "$ara_actions": "1.0",
+  "intents": {
+    "description": "Maps user intents to Le Jardin actions",
+    "mappings": [
+      {
+        "intent": "book_table",
+        "description": "User wants to reserve a table",
+        "examples": [
+          "Book a table for two on Friday at 8pm",
+          "Is there availability tomorrow evening?"
+        ],
+        "action": "check_reservations_availability"
+      },
+      {
+        "intent": "see_menu",
+        "description": "User wants to know what is served",
+        "examples": [
+          "What's on the tasting menu?",
+          "Do you have vegetarian dishes?"
+        ],
+        "action": "list_menu"
+      },
+      {
+        "intent": "wine_pairing",
+        "description": "User wants a wine recommendation",
+        "examples": [
+          "Which wine goes with the duck?"
+        ],
+        "action": "list_wine_list_pairings"
+      }
+    ]
+  },
+  "actions": [
+    {
+      "id": "list_menu",
+      "name": "GET /menu",
+      "description": "Get current menu with all dishes",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "course_type": {
+            "type": "string"
+          },
+          "dietary_filter": {
+            "type": "array"
+          },
+          "seasonal_only": {
+            "type": "boolean"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array"
+          },
+          "total": {
+            "type": "integer"
+          }
+        }
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/menu",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "get_dish",
+      "name": "GET /menu/{dish_id}",
+      "description": "Get detailed dish information",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "dish_id"
+        ],
+        "properties": {
+          "dish_id": {
+            "type": "string",
+            "description": "Dish identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/menu.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/menu/{dish_id}",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_menu_versions",
+      "name": "GET /menu-versions",
+      "description": "List all menu versions",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "season": {
+            "type": "string"
+          },
+          "active_only": {
+            "type": "boolean"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/menu-versions",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "get_menu_version",
+      "name": "GET /menu-versions/{version_id}",
+      "description": "Get specific menu version details",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "version_id"
+        ],
+        "properties": {
+          "version_id": {
+            "type": "string",
+            "description": "Version identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/menu_versions.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/menu-versions/{version_id}",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "check_reservations_availability",
+      "name": "GET /reservations/availability",
+      "description": "Check table availability for given date and time",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "time": {
+            "type": "string"
+          },
+          "party_size": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "available_slots": {
+            "type": "array"
+          },
+          "available_tables": {
+            "type": "array"
+          }
+        }
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/reservations/availability",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_reservations",
+      "name": "GET /reservations",
+      "description": "List reservations or create new reservation (GET)",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": true,
+      "input": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "reservation_code": {
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/reservations",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "create_reservation",
+      "name": "POST /reservations",
+      "description": "List reservations or create new reservation (POST)",
+      "type": "mutation",
+      "idempotent": false,
+      "auth_required": true,
+      "confirmation_required": true,
+      "input": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "reservation_code": {
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "POST",
+          "path": "/v1/reservations"
+        }
+      }
+    },
+    {
+      "id": "get_reservation",
+      "name": "GET /reservations/{reservation_id}",
+      "description": "Manage specific reservation (GET)",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": true,
+      "input": {
+        "type": "object",
+        "required": [
+          "reservation_id"
+        ],
+        "properties": {
+          "reservation_id": {
+            "type": "string",
+            "description": "Reservation identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/reservations.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/reservations/{reservation_id}",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "update_reservation",
+      "name": "PUT /reservations/{reservation_id}",
+      "description": "Manage specific reservation (PUT)",
+      "type": "mutation",
+      "idempotent": true,
+      "auth_required": true,
+      "confirmation_required": true,
+      "input": {
+        "type": "object",
+        "required": [
+          "reservation_id"
+        ],
+        "properties": {
+          "reservation_id": {
+            "type": "string",
+            "description": "Reservation identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/reservations.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "PUT",
+          "path": "/v1/reservations/{reservation_id}"
+        }
+      }
+    },
+    {
+      "id": "delete_reservation",
+      "name": "DELETE /reservations/{reservation_id}",
+      "description": "Manage specific reservation (DELETE)",
+      "type": "mutation",
+      "idempotent": true,
+      "auth_required": true,
+      "confirmation_required": true,
+      "input": {
+        "type": "object",
+        "required": [
+          "reservation_id"
+        ],
+        "properties": {
+          "reservation_id": {
+            "type": "string",
+            "description": "Reservation identifier"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "DELETE",
+          "path": "/v1/reservations/{reservation_id}"
+        }
+      }
+    },
+    {
+      "id": "list_tables",
+      "name": "GET /tables",
+      "description": "List restaurant tables and seating information",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {}
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/tables",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_reviews",
+      "name": "GET /reviews",
+      "description": "Get reviews or submit new review (GET)",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "sort": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/reviews",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "create_review",
+      "name": "POST /reviews",
+      "description": "Get reviews or submit new review (POST)",
+      "type": "mutation",
+      "idempotent": false,
+      "auth_required": false,
+      "confirmation_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "sort": {
+            "type": "string"
+          },
+          "page": {
+            "type": "integer"
+          },
+          "limit": {
+            "type": "integer"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "POST",
+          "path": "/v1/reviews"
+        }
+      }
+    },
+    {
+      "id": "list_wine_list",
+      "name": "GET /wine-list",
+      "description": "Get wine collection",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "region": {
+            "type": "string"
+          },
+          "price_max": {
+            "type": "number"
+          },
+          "in_stock_only": {
+            "type": "boolean"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/wine-list",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_wine_list_pairings",
+      "name": "GET /wine-list/{wine_id}/pairings",
+      "description": "Get wine pairing recommendations with menu items",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "wine_id"
+        ],
+        "properties": {
+          "wine_id": {
+            "type": "string",
+            "description": "Wine identifier"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/wine-list/{wine_id}/pairings",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_staff",
+      "name": "GET /staff",
+      "description": "View chef and staff profiles",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {}
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/staff",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "list_events",
+      "name": "GET /events",
+      "description": "List upcoming special events",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "properties": {
+          "event_type": {
+            "type": "string"
+          },
+          "available_only": {
+            "type": "boolean"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/events",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "get_event",
+      "name": "GET /events/{event_id}",
+      "description": "Get event details and menu preview",
+      "type": "query",
+      "idempotent": true,
+      "auth_required": false,
+      "input": {
+        "type": "object",
+        "required": [
+          "event_id"
+        ],
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "description": "Event identifier"
+          }
+        }
+      },
+      "output": {
+        "$ref": "schemas/events.json"
+      },
+      "protocols": {
+        "rest": {
+          "method": "GET",
+          "path": "/v1/events/{event_id}",
+          "params_mapping": "query_string"
+        }
+      }
+    },
+    {
+      "id": "book_event",
+      "name": "POST /events/{event_id}/book",
+      "description": "Book tickets for special event",
+      "type": "mutation",
+      "idempotent": false,
+      "auth_required": false,
+      "confirmation_required": true,
+      "input": {
+        "type": "object",
+        "required": [
+          "event_id"
+        ],
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "description": "Event identifier"
+          }
+        }
+      },
+      "output": {
+        "type": "object"
+      },
+      "protocols": {
+        "rest": {
+          "method": "POST",
+          "path": "/v1/events/{event_id}/book"
+        }
+      }
+    }
+  ]
+}

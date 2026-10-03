@@ -1,0 +1,71 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "plans",
+  "description": "Subscription pricing plans",
+  "extends": "schema:Offer",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the plan",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the plan",
+      "semantic": "schema:name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the plan",
+      "semantic": "schema:description"
+    },
+    "price_monthly": {
+      "type": "number",
+      "description": "Price monthly of the plan"
+    },
+    "price_annually": {
+      "type": "number",
+      "description": "Price annually of the plan"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency of the plan",
+      "semantic": "schema:priceCurrency"
+    },
+    "features": {
+      "type": "array",
+      "description": "Features of the plan",
+      "items": {
+        "type": "string"
+      }
+    },
+    "max_projects": {
+      "type": "integer",
+      "description": "Max projects of the plan"
+    },
+    "max_members": {
+      "type": "integer",
+      "description": "Max members of the plan"
+    },
+    "storage_gb": {
+      "type": "integer",
+      "description": "Storage gb of the plan"
+    },
+    "api_calls_monthly": {
+      "type": "integer",
+      "description": "Api calls monthly of the plan"
+    },
+    "support_level": {
+      "type": "string",
+      "description": "Support level of the plan"
+    }
+  },
+  "search_hints": {
+    "filterable": [],
+    "sortable": [],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  }
+}

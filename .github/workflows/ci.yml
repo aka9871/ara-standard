@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validator tests
+        working-directory: tools/ara-validator
+        run: npm test
+
+      - name: Examples are valid and complete (score 100, no issue, no warning)
+        run: |
+          status=0
+          for manifest in spec/examples/*/manifest.json; do
+            result=$(node tools/ara-validator/index.js "$manifest" --json | sed -n '/^{/,$p')
+            summary=$(echo "$result" | node -e '
+              let d = ""; process.stdin.on("data", (c) => (d += c)).on("end", () => {
+                const r = JSON.parse(d);
+                const ok = r.score === 100 && r.issues.length === 0 && r.warnings.length === 0;
+                console.log(`${ok ? "ok" : "FAIL"} ${r.score}/100 issues=${JSON.stringify(r.issues)} warnings=${JSON.stringify(r.warnings)}`);
+              });')
+            echo "$manifest: $summary"
+            case "$summary" in ok*) ;; *) status=1 ;; esac
+          done
+          exit $status
+
+      - name: The repository's own manifest has no issue
+        run: |
+          node tools/ara-validator/index.js .well-known/ara/manifest.json --json | sed -n '/^{/,$p' \
+            | node -e 'let d="";process.stdin.on("data",c=>d+=c).on("end",()=>{const r=JSON.parse(d);console.log(r.score, r.issues);process.exit(r.issues.length?1:0)})'

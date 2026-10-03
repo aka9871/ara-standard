@@ -1,0 +1,75 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "collections",
+  "description": "Themed seasonal and exclusive product collections",
+  "extends": "schema:Collection",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the collection",
+      "semantic": "identifier"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the collection",
+      "semantic": "schema:name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the collection",
+      "semantic": "schema:description"
+    },
+    "theme": {
+      "type": "string",
+      "description": "Theme of the collection"
+    },
+    "season": {
+      "type": "string",
+      "description": "Season of the collection"
+    },
+    "product_ids": {
+      "type": "array",
+      "description": "Product ids of the collection",
+      "items": {
+        "type": "string"
+      }
+    },
+    "featured_image": {
+      "type": "string",
+      "description": "Featured image of the collection",
+      "semantic": "schema:image"
+    },
+    "discount_percentage": {
+      "type": "number",
+      "description": "Discount percentage of the collection"
+    },
+    "start_date": {
+      "type": "string",
+      "description": "Start date of the collection",
+      "format": "date-time",
+      "semantic": "schema:startDate"
+    },
+    "end_date": {
+      "type": "string",
+      "description": "End date of the collection",
+      "format": "date-time",
+      "semantic": "schema:endDate"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Created at of the collection",
+      "format": "date-time",
+      "semantic": "schema:dateCreated"
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "season"
+    ],
+    "sortable": [],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  }
+}

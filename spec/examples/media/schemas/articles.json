@@ -1,0 +1,114 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "articles",
+  "description": "Technology news articles and feature stories",
+  "extends": "schema:NewsArticle",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the article",
+      "semantic": "identifier"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the article",
+      "semantic": "schema:headline"
+    },
+    "slug": {
+      "type": "string",
+      "description": "Slug of the article",
+      "semantic": "schema:identifier"
+    },
+    "content": {
+      "type": "string",
+      "description": "Content of the article",
+      "semantic": "schema:articleBody"
+    },
+    "excerpt": {
+      "type": "string",
+      "description": "Excerpt of the article"
+    },
+    "author_id": {
+      "type": "string",
+      "description": "Author identifier of the article",
+      "semantic": "schema:author"
+    },
+    "category_id": {
+      "type": "string",
+      "description": "Category identifier of the article",
+      "semantic": "schema:category"
+    },
+    "tags": {
+      "type": "array",
+      "description": "Tags of the article",
+      "items": {
+        "type": "string"
+      },
+      "semantic": "schema:keywords"
+    },
+    "featured_image": {
+      "type": "string",
+      "description": "Featured image of the article",
+      "semantic": "schema:image"
+    },
+    "image_alt_text": {
+      "type": "string",
+      "description": "Image alt text of the article"
+    },
+    "view_count": {
+      "type": "integer",
+      "description": "View count of the article"
+    },
+    "published_at": {
+      "type": "string",
+      "description": "Published at of the article",
+      "format": "date-time",
+      "semantic": "schema:datePublished"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Updated at of the article",
+      "format": "date-time",
+      "semantic": "schema:dateModified"
+    },
+    "status": {
+      "type": "string",
+      "description": "Status of the article",
+      "semantic": "schema:status"
+    },
+    "reading_time_minutes": {
+      "type": "integer",
+      "description": "Reading time minutes of the article"
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "category",
+      "author_id",
+      "tags",
+      "status"
+    ],
+    "sortable": [
+      "updated_at"
+    ],
+    "fulltext": [
+      "title",
+      "content",
+      "excerpt"
+    ]
+  },
+  "relationships": [
+    {
+      "name": "author",
+      "target": "authors",
+      "type": "parent",
+      "description": "The author referenced by author_id"
+    },
+    {
+      "name": "category",
+      "target": "categories",
+      "type": "parent",
+      "description": "The category referenced by category_id"
+    }
+  ]
+}

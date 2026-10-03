@@ -1,0 +1,123 @@
+{
+  "$ara_schema": "1.0",
+  "resource": "products",
+  "description": "Fashion items including apparel, footwear, and accessories",
+  "extends": "schema:Product",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Identifier of the product",
+      "semantic": "identifier"
+    },
+    "sku": {
+      "type": "string",
+      "description": "SKU of the product",
+      "semantic": "schema:sku"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the product",
+      "semantic": "schema:name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the product",
+      "semantic": "schema:description"
+    },
+    "category": {
+      "type": "string",
+      "description": "Category of the product",
+      "enum": [
+        "Dresses",
+        "Tops",
+        "Bottoms",
+        "Outerwear",
+        "Footwear",
+        "Accessories",
+        "Activewear",
+        "Intimates"
+      ],
+      "semantic": "schema:category"
+    },
+    "price": {
+      "type": "number",
+      "description": "Price of the product",
+      "semantic": "schema:price"
+    },
+    "currency": {
+      "type": "string",
+      "description": "Currency of the product",
+      "semantic": "schema:priceCurrency"
+    },
+    "inventory": {
+      "type": "integer",
+      "description": "Inventory of the product"
+    },
+    "images": {
+      "type": "array",
+      "description": "Images of the product",
+      "items": {
+        "type": "string"
+      },
+      "semantic": "schema:image"
+    },
+    "colors": {
+      "type": "array",
+      "description": "Colors of the product",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sizes": {
+      "type": "array",
+      "description": "Sizes of the product",
+      "items": {
+        "type": "string"
+      }
+    },
+    "materials": {
+      "type": "array",
+      "description": "Materials of the product",
+      "items": {
+        "type": "string"
+      }
+    },
+    "rating": {
+      "type": "number",
+      "description": "Rating of the product",
+      "semantic": "schema:ratingValue"
+    },
+    "reviews_count": {
+      "type": "integer",
+      "description": "Reviews count of the product",
+      "semantic": "schema:reviewCount"
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Created at of the product",
+      "format": "date-time",
+      "semantic": "schema:dateCreated"
+    },
+    "updated_at": {
+      "type": "string",
+      "description": "Updated at of the product",
+      "format": "date-time",
+      "semantic": "schema:dateModified"
+    }
+  },
+  "search_hints": {
+    "filterable": [
+      "category",
+      "min_price",
+      "max_price"
+    ],
+    "sortable": [
+      "created_at",
+      "updated_at"
+    ],
+    "fulltext": [
+      "name",
+      "description"
+    ]
+  }
+}
