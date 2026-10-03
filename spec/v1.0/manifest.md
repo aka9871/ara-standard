@@ -99,6 +99,19 @@ Declares which protocols an agent can use to interact with the site.
 | `protocols` | object | No | Available communication protocols |
 | `actions_ref` | string | No | Reference to Layer 3 actions file (e.g., `"actions.json"`) |
 
+### Reference Resolution
+
+`schema_ref`, `actions_ref` and any other reference in an ARA file are URI references ([RFC 3986](https://www.rfc-editor.org/rfc/rfc3986)). A relative reference is resolved against the URL of the file that contains it:
+
+| In `https://example.com/.well-known/ara/manifest.json` | Resolves to |
+|-------|-------------|
+| `"schemas/product.json"` | `https://example.com/.well-known/ara/schemas/product.json` |
+| `"actions.json"` | `https://example.com/.well-known/ara/actions.json` |
+| `"/.well-known/ara/actions.json"` | `https://example.com/.well-known/ara/actions.json` |
+| `"https://cdn.example.com/ara/product.json"` | unchanged |
+
+When `actions_ref` is absent, agents look for `actions.json` next to the manifest.
+
 ### Protocol Objects
 
 #### MCP (Model Context Protocol)
@@ -107,12 +120,14 @@ Declares which protocols an agent can use to interact with the site.
 {
   "mcp": {
     "endpoint": "https://example.com/mcp",
-    "version": "2025-03",
+    "version": "2025-11-25",
     "tools": ["search", "get_details", "book"],
     "description": "Full MCP server for agent interactions"
   }
 }
 ```
+
+`version` is the MCP protocol revision the server supports, as published by the MCP specification (a date such as `2025-11-25`).
 
 #### A2A (Agent-to-Agent)
 
@@ -221,7 +236,7 @@ Information about the manifest itself.
 | `generator` | string | Tool that generated this manifest |
 | `checksum` | string | Integrity checksum |
 | `next_update` | string (ISO 8601) | When the manifest will next be updated |
-| `human_site` | string (URL) | The human-facing website URL |
+| `human_site` | string (URL) | The human-facing website URL (e.g., `"https://example.com"`). Not a boolean. |
 | `support` | string (email) | Support contact for ARA-related issues |
 
 ---
